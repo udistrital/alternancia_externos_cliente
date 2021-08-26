@@ -1,0 +1,71 @@
+<div *ngIf="loaderService.isLoading | async" class="loader-container">
+    <mat-spinner style="top: 50%;left: 50%;"></mat-spinner>
+</div>
+<br>
+<mat-card class="{{permisos?'card-oas':'card-oas hidden'}}">
+    <mat-card-header>
+        <mat-card-title>Seleccione el espacio</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field appearance="fill" >
+          <mat-label>Sede</mat-label>
+          <mat-select (selectionChange)="cambioSede(sedeSeleccionada)"  [(value)]="sedeSeleccionada">
+            <mat-option disabled selected> Selecciona una opcion</mat-option>
+            <mat-option *ngFor="let sede of sedes" [value]="sede.Id">{{sede.Nombre}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" *ngIf="edificioActivado">
+          <mat-label>Edificio</mat-label>
+          <mat-select (selectionChange)="cambioEdificio()" [(value)]=edificioSeleccionado>
+            <mat-option disabled selected> Selecciona una opcion</mat-option>
+            <mat-option *ngFor="let edificio of edificios" [value]="edificio.Id">{{edificio.Nombre}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br *ngIf="edificioActivado">
+        <mat-form-field appearance="fill" *ngIf="edificioCambiado">
+            <mat-label>Salon</mat-label>
+            <input matInput [(ngModel)]="salon">
+        </mat-form-field>
+        <br  *ngIf="edificioCambiado">
+        <mat-radio-group aria-label="Seleccione el tipo de escaneo" *ngIf="edificioActivado"  [(ngModel)]="tipo">
+            <mat-radio-button value="in" selected>Entrada</mat-radio-button>&nbsp;
+            <mat-radio-button value="out">Salida</mat-radio-button>
+        </mat-radio-group>
+    </mat-card-content>
+</mat-card>
+<br>
+<mat-card class='card-oas'>
+    <mat-card-header>
+        <mat-card-title>Seleccione dispositivo</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div *ngFor="let device of videoDevices">
+            <button mat-button color="primary" 
+            (click)="selectDevice(device)">{{device.kind}} {{device.label?device.label:''}}</button>
+        </div>
+        <div *ngIf="videoDevices?videoDevices.length === 0:0">
+            <p>No se encontraron dispositivos de lectura</p>
+        </div>
+    </mat-card-content>
+</mat-card>
+<br>
+<mat-card  class="{{dispositivoActual?'card-oas':'card-oas hidden'}}">
+    <mat-card-header>
+        <mat-card-title>Lector QR </mat-card-title>
+        <!-- <div *ngIf="dispositivoActual"> -->
+        <div class="qr-animation" *ngIf="dispositivoActual">            
+            <span class="material-icons md-30">qr_code_scanner</span>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <qr-scanner
+        [debug]="false"
+        [canvasWidth]="400"
+        [canvasHeight]="400"
+        [stopAfterScan]="true"
+        [updateTime]="500">
+    </qr-scanner>
+    </mat-card-content>
+</mat-card>
+<br>

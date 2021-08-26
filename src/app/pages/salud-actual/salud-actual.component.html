@@ -1,0 +1,37 @@
+<mat-card class="card-oas">
+    <mat-card-header>
+        <mat-card-title>Estado de salud actual</mat-card-title>
+        <mat-card-subtitle>Por favor seleccione las opciones de acuerdo a su estado de salud </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+        <div class="item-default" *ngFor="let item of task">
+            <mat-checkbox [(ngModel)]="item.isSelected" [color]="'primary'"  (change)="validarChecksS()">
+            </mat-checkbox>
+            <div class="text-justify">{{item.label}}</div>
+        </div>
+        <div class="item-default">
+            <mat-checkbox [color]="'primary'" [(ngModel)]="allNullSintomas" (change)="vaciarChecksS()"></mat-checkbox>
+            <div class="text-justify">Ninguna</div>
+        </div>
+
+        <br>
+
+        <div class="text-note">
+            <p> <b>Nota:</b> Si sospecha que tiene algún síntoma diferente a los antes mencionados o ha estado en contacto cercano con personas que tienen Covid-19, agradecemos reportar
+                <a href="http://www1.udistrital.edu.co:8080/web/division-de-recursos-humanos/formulario-1">haciendo click aquí</a> o al correo <b>saludocupacional@udistrital.edu.co</b>, puesto
+                que por recomendación del Ministerio de Salud se debe llevar un reporte de casos en la institución. Es importante que como Estudiante, docente, trabajador o colaborador de la Universidad realice el respectivo reporte para recibir por parte
+                del SG-SST un adecuado seguimiento y por parte de la ARL la calificación pertinente y los costos o servicios que se requieran.
+            </p>
+            <p>El Ministerio de Salud y Protección Social, recomienda cumplir con todas las medidas dispuestas para romper la cadena de transmisión de la COVID-19, siendo el distanciamiento físico, el lavado de manos y el uso de tapabocas en lugares concurridos,
+                las maneras más efectivas de prevención.</p>
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button color="primary" (click)="clear()">Limpiar</button>
+        <button mat-raised-button color="primary" (click)="save()">Guardar</button>
+    </mat-card-actions>
+
+</mat-card>
+<br><br><br>

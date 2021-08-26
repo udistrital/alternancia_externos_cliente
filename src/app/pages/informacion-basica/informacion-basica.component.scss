@@ -1,0 +1,67 @@
+.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tg td {
+    border-color: var(--primary);
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    vertical-align: middle;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+}
+
+.tg th {
+    border-color: var(--primary);
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    overflow: hidden;
+    vertical-align: middle;
+    padding: 10px 5px;
+    word-break: normal;
+}
+
+.tg .tg-head {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.tg .tg-body {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.div-table {
+    overflow: auto;    
+}
+
+
+
+.example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+  }
+  
+.example-radio-button {
+    margin: 5px;
+}
+
+.vacunacion-content{
+    margin-left: 1rem;
+}
+
+.date_container {        
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

@@ -1,0 +1,38 @@
+.text-justify {
+    text-align: justify;
+    margin-left: 1rem;
+    max-width: 70%;
+
+}
+
+
+.text-note {
+    text-align: justify;
+    margin-left: 1rem;
+    max-width: 70%;
+}
+
+a {
+    color: var(--primary)
+}
+
+.item-default {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+
+}
+
+
+.mat-list-item-content > .mat-ripple.mat-list-item-ripple {
+    align-items: initial !important;
+}
+
+@media screen and (max-width: 768px) {
+    
+    .text-note {
+        max-width: 100%;
+    }
+    
+}

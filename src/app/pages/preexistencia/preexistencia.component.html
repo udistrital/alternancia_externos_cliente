@@ -1,0 +1,59 @@
+<mat-card class="card-oas">
+    <mat-card-header>
+        <mat-card-title>Información asistencia</mat-card-title>
+        <mat-card-subtitle>¿Estaría dispuesto a desempeñar alguna de las siguientes actividades de forma presencial?</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="item-default" *ngFor="let item of vinculaciones">
+            <mat-checkbox [(ngModel)]="item.isSelected" [color]="'primary'">
+            </mat-checkbox>
+            <div class="text-justify">{{item.label}}</div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<br>
+<mat-card class="card-oas">
+    <mat-card-header>
+        <mat-card-title>Comorbilidades</mat-card-title>
+        <mat-card-subtitle>¿Presenta alguna de las siguientes enfermedades? </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="item-default" *ngFor="let item of comorbilidades">
+            <mat-checkbox [(ngModel)]="item.isSelected" [color]="'primary'" (change)="validarChecksCO()">
+            </mat-checkbox>
+            <div class="text-justify">{{item.label}}</div>
+        </div>
+        <div class="item-default">
+            <mat-checkbox [color]="'primary'" [(ngModel)]="allNullComorbilidades" (change)="vaciarChecksCO()"></mat-checkbox>
+            <div class="text-justify">Ninguna</div>
+        </div>
+
+
+
+    </mat-card-content>
+</mat-card>
+<br>
+
+<mat-card class="card-oas" *ngIf="!decision_presencialidad">
+    <mat-card-header>
+        <mat-card-title>Información Adicional</mat-card-title>
+        <mat-card-subtitle>Por favor seleccione si presenta algunas de las siguientes situaciones</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="item-default" *ngFor="let otro of otros">
+            <mat-checkbox [(ngModel)]="otro.isSelected" [color]="'primary'" (change)="validarChecksOtros()">
+            </mat-checkbox>
+            <div class="text-justify">{{otro.label}}</div>
+        </div>
+        <div class="item-default">
+            <mat-checkbox [color]="'primary'" [(ngModel)]="allNullOtros" (change)="vaciarChecksOtros()"></mat-checkbox>
+            <div class="text-justify">Ninguna</div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-button color="primary" (click)="clear()">Limpiar</button>
+        <button mat-raised-button color="primary" (click)="save()">Guardar</button>
+    </mat-card-actions>
+</mat-card>
+<br><br><br>

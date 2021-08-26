@@ -1,0 +1,258 @@
+<mat-card class="card-oas" *ngIf="tercero && datosIdentificacion">
+    <mat-card-header>
+        <!-- <mat-card-title>Terceros</mat-card-title>
+        <mat-card-subtitle>Ambiente de pruebas</mat-card-subtitle>
+        -->
+        <mat-card-title>Información básica</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Primer nombre</mat-label>
+                    <input matInput type="text" value="{{tercero.PrimerNombre}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Segundo nombre</mat-label>
+                    <input matInput type="text" value="{{tercero.SegundoNombre}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Primer apellido</mat-label>
+                    <input matInput type="text" value="{{tercero.PrimerApellido}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Segundo apellido</mat-label>
+                    <input matInput type="text" value="{{tercero.SegundoApellido}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+        <br>
+        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
+
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Tipo de documento</mat-label>
+                    <input matInput type="text" value="{{datosIdentificacion.TipoDocumentoId.Nombre}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Número de documento</mat-label>
+                    <input matInput type="number" value="{{datosIdentificacion.Numero}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Fecha de expedicion del documento</mat-label>
+                    <input matInput type="text" [value]="datosIdentificacion.FechaExpedicion | date: 'dd/MM/yyyy'"
+                        disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Localidad </mat-label>
+                    <input matInput type="text"
+                        value="{{datosLocalidad?datosLocalidad.InfoComplementariaId?datosLocalidad.InfoComplementariaId.Nombre:'':''}}"
+                        disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <br>
+        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Género</mat-label>
+                    <input matInput type="text"
+                        value="{{datosGenero?datosGenero.InfoComplementariaId?datosGenero.InfoComplementariaId.Nombre:'':''}}"
+                        disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Estado civil</mat-label>
+                    <input matInput type="text"
+                        value="{{datosEstadoCivil?datosEstadoCivil.InfoComplementariaId?datosEstadoCivil.InfoComplementariaId.Nombre:'':''}}"
+                        disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Fecha de nacimiento</mat-label>
+                    <input matInput type="text" [value]="tercero.FechaNacimiento | date: 'dd/MM/yyyy'" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>Edad</mat-label>
+                    <input matInput type="number" value="{{edad}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card class="card-oas" *ngIf="tercero && datosIdentificacion">
+
+    <mat-card-header>
+
+        <mat-card-title>Información de vacunación</mat-card-title>
+
+
+    </mat-card-header>
+    <form [formGroup]="formVacunacion" (ngSubmit)="save()">
+        <mat-card-content>
+            <div class="vacunacion-content">
+
+                <ng-container *ngIf="infoVacunacion">
+                    <br>
+                    <label id="vacunacion-radio-group-label">{{infoVacunacion?infoVacunacion[0].name:""}}</label>
+                    <mat-radio-group formControlName="radioVacunacion" class="example-radio-group"
+                        aria-labelledby="example-radio-group-label" required [checked]="infoVacunacion[0].dato"
+                        >
+                        <mat-radio-button class="example-radio-button" value="true">Si</mat-radio-button>
+                        <mat-radio-button class="example-radio-button" value="false">No</mat-radio-button>
+                    </mat-radio-group>
+
+                </ng-container>
+                <ng-container *ngIf="formVacunacion.get('radioVacunacion').value === 'true'">
+                    <br>
+                    <label>{{infoVacunacion?infoVacunacion[1].name:""}}</label>
+                   
+                    <br><br>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput [matDatepicker]="fechaVacunacionPicker" formControlName="fechaVacunacion" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="fechaVacunacionPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #fechaVacunacionPicker></mat-datepicker>
+                        <mat-error *ngIf="formVacunacion.get('fechaVacunacion').invalid">{{getErrorMessage(formVacunacion.get('fechaVacunacion'))}}</mat-error>
+                    </mat-form-field>
+                    <br>
+                    <label>{{infoVacunacion?infoVacunacion[2].name:""}}</label>
+                   
+                    <br><br>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Empresa</mat-label>
+                        <mat-select formControlName="empresaVacunacion" >
+                            <mat-option disabled selected> Selecciona una opcion</mat-option>
+                            <mat-option value="PFIZER">Pfizer</mat-option>
+                            <mat-option value="ASTRAZENECA">AstraZeneca</mat-option>
+                            <mat-option value="SINOVAC">Sinovac</mat-option>
+                            <mat-option value="JANSSEN">Janssen</mat-option>
+                            <mat-option value="MODERNA">Moderna</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formVacunacion.get('empresaVacunacion').invalid">{{getErrorMessage(formVacunacion.get('empresaVacunacion'))}}</mat-error>
+                    </mat-form-field>
+                </ng-container>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div style="margin: 1rem;">
+                <button [disabled]="!formVacunacion.valid" mat-raised-button color="primary" type="submit" class="col-3 mt-2 mb-3">
+                    Guardar
+                </button>
+            </div>
+        </mat-card-actions>
+    </form>
+</mat-card>
+
+<br>
+
+<mat-card class="card-oas" *ngIf="tercero && datosIdentificacion">
+
+    <mat-card-header>
+
+        <mat-card-title>Información vinculación</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-accordion>
+
+
+            <mat-expansion-panel *ngFor="let vinculacion of vinculacionesOtros">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{vinculacion.TipoVinculacion.Nombre}}
+                    </mat-panel-title>
+
+                </mat-expansion-panel-header>
+
+                <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 4}" rowHeight="80px"
+                    gutterSize="10px">
+
+                    <mat-grid-tile>
+                        <mat-form-field appearance="fill" [style.width.%]="100">
+                            <mat-label>Fecha de inicio</mat-label>
+                            <input matInput type="text"
+                                value="{{vinculacion.FechaInicioVinculacion | date: 'dd/MM/yyyy'}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field appearance="fill" [style.width.%]="100">
+                            <mat-label>Fecha de finalización</mat-label>
+                            <input matInput type="text" value="{{vinculacion.FechaFinVinculacion | date: 'dd/MM/yyyy'}}"
+                                disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field appearance="fill" [style.width.%]="100">
+                            <mat-label>Dependencia</mat-label>
+                            <input matInput type="text"
+                                value="{{vinculacion?vinculacion.Dependencia?vinculacion.Dependencia.Nombre:'':''}}"
+                                disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngFor="let vinculacion of vinculacionesEstudiante">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{vinculacion.TipoVinculacion.Nombre}}
+                    </mat-panel-title>
+
+                </mat-expansion-panel-header>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="vinculacionesDocente?vinculacionesDocente.length != 0:false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        DOCENTE
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+
+                <!--                 <div class="div-table" style="text-align:center">
+
+                    <b><span>Carga academica Período 2021-1</span></b>
+                    <br>
+                    <br>
+
+                    <ng2-smart-table [settings]="settings" [source]="source">
+
+
+                    </ng2-smart-table>
+                </div> -->
+
+
+            </mat-expansion-panel>
+
+
+        </mat-accordion>
+
+    </mat-card-content>
+
+</mat-card>
+
+<br><br><br>

@@ -1,0 +1,29 @@
+.qr-animation {
+  animation-duration: 2s;
+  animation-name: slidein;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes slidein {
+  from {
+    color: var(--primary);
+  }
+
+  to {
+    color: red;
+  }
+}
+
+.loader-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 99;
+}
