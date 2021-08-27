@@ -4,6 +4,7 @@ export const environment = {
   autenticacion: true,
   notificaciones: false,
   menuApps: false,
+
   appname: 'alternancia_externos',
   appMenu: 'alternancia_externos',
   NUXEO: {
