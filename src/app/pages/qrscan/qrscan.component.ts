@@ -218,7 +218,7 @@ export class QrscanComponent implements AfterViewInit {
   cargarEdificios(){
     this.edificiosSeleccion={}
     for (let sede of this.sedes){
-      this.request.get(environment.OIKOS_SERVICE,"espacio_fisico_padre/?limit=-1&query=PadreId.Id:"+sede.Id)
+      this.request.get(environment.OIKOS_SERVICE,"espacio_fisico_padre/?limit=-1&query=Padre.Id:"+sede.Id)
       .subscribe((res :any) =>{
         let edificios:EspacioFisico[]=[]
         for(let respuesta of res){
