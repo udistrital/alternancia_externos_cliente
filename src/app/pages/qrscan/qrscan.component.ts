@@ -6,6 +6,7 @@ import { environment } from './../../../environments/environment';
 import { UserService } from '../services/userService';
 import { EspacioFisico } from 'src/app/@core/models/espacio_fisico';
 import { LoaderService } from 'src/app/loader/loader.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-qrscan',
@@ -187,7 +188,7 @@ export class QrscanComponent implements AfterViewInit {
     this.sedeCambiada=true
     this.edificioSeleccionado=""
     this.salon=""
-    if(this.edificiosSeleccion[idSede].length>1){
+    if(this.edificiosSeleccion[idSede].length>0){
       this.edificioActivado=true
       this.edificios=this.edificiosSeleccion[idSede]
       this.edificioCambiado=false
@@ -218,20 +219,25 @@ export class QrscanComponent implements AfterViewInit {
   cargarEdificios(){
     this.edificiosSeleccion={}
     for (let sede of this.sedes){
-      this.request.get(environment.OIKOS_SERVICE,"espacio_fisico_padre/?limit=-1&query=Padre.Id:"+sede.Id)
-      .subscribe((res :any) =>{
-        let edificios:EspacioFisico[]=[]
-        for(let respuesta of res){
-          edificios.push(respuesta.Hijo)
-        }
-        this.edificiosSeleccion[sede.Id.toString()]=edificios
-      }, (error) => {
+      try{
+        this.request.get(environment.OIKOS_SERVICE,"espacio_fisico_padre/?limit=-1&query=Padre.Id:"+sede.Id)
+        .subscribe((res :any) =>{
+          let edificios:EspacioFisico[]=[]
+          for(let respuesta of res){
+            if(respuesta.Hijo){
+              edificios.push(respuesta.Hijo)
+            }
+          }
+          this.edificiosSeleccion[sede.Id.toString()]=edificios
+        }, (error:HttpErrorResponse) => {
+          this.edificiosSeleccion[sede.Id.toString()]=[]
+          console.log(error);
+        });
+      }
+      catch(error){
+        this.edificiosSeleccion[sede.Id.toString()]=[]
         console.log(error);
-      });
+      }
     }
-  }
-
-  consultarVinculacion(){
-    
   }
 }
