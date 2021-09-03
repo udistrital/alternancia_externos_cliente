@@ -15,20 +15,15 @@
           </mat-select>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" *ngIf="edificioActivado">
+        <!--<mat-form-field appearance="fill" *ngIf="edificioActivado">
           <mat-label>Edificio</mat-label>
           <mat-select (selectionChange)="cambioEdificio()" [(value)]=edificioSeleccionado>
             <mat-option disabled selected> Selecciona una opcion</mat-option>
             <mat-option *ngFor="let edificio of edificios" [value]="edificio.Id">{{edificio.Nombre}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <br *ngIf="edificioActivado">
-        <mat-form-field appearance="fill" *ngIf="edificioCambiado">
-            <mat-label>Salon</mat-label>
-            <input matInput [(ngModel)]="salon">
-        </mat-form-field>
-        <br  *ngIf="edificioCambiado">
-        <mat-radio-group aria-label="Seleccione el tipo de escaneo" *ngIf="edificioActivado"  [(ngModel)]="tipo">
+        <br  *ngIf="edificioCambiado">-->
+        <mat-radio-group aria-label="Seleccione el tipo de escaneo" [(ngModel)]="tipo">
             <mat-radio-button value="in" selected>Entrada</mat-radio-button>&nbsp;
             <mat-radio-button value="out">Salida</mat-radio-button>
         </mat-radio-group>
