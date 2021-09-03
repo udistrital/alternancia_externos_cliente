@@ -21,16 +21,15 @@ export class QrscanComponent implements AfterViewInit {
   videoDevices: any = null;
   dispositivoActual: any = null;
   sedes:EspacioFisico[];
-  edificios:EspacioFisico[];
-  edificiosSeleccion={};
+  //edificios:EspacioFisico[];
+  //edificiosSeleccion={};
   sedeSeleccionada:string;
   edificioSeleccionado:string;
   idRol:number;
-  edificioActivado:boolean;
+  //edificioActivado:boolean;
   sedeCambiada:boolean;
-  edificioCambiado:boolean;
+  //edificioCambiado:boolean;
   permisos:boolean;
-  salon:string;
   tipo:string;
 
   constructor(private request: RequestManager, private userService: UserService, public loaderService: LoaderService) {
@@ -149,7 +148,7 @@ export class QrscanComponent implements AfterViewInit {
 
   consultarAcceso(){
     this.userService.tercero$.subscribe((tercero: any)=> {
-      this.request.get(environment.ALTERNANCIA_MID_SERVICE, `acceso/${this.lectura.IdTercero}/${tercero['Id']}/?sede=${this.sedeSeleccionada}&tipo=${this.tipo}${this.edificioSeleccionado?"&edificio="+this.edificioSeleccionado:""}${this.salon?"&aula="+this.salon:""}`)
+      this.request.get(environment.ALTERNANCIA_MID_SERVICE, `acceso/${this.lectura.IdTercero}/${tercero['Id']}/?sede=${this.sedeSeleccionada}&tipo=${this.tipo}${this.edificioSeleccionado?"&edificio="+this.edificioSeleccionado:""}`)
         .subscribe(async(respuesta: any) => {          
           this.persona =await respuesta["Data"];
           let codeHtml=`
@@ -186,8 +185,7 @@ export class QrscanComponent implements AfterViewInit {
 
   cambioSede(idSede:string){
     this.sedeCambiada=true
-    this.edificioSeleccionado=""
-    this.salon=""
+    /*this.edificioSeleccionado=""
     if(this.edificiosSeleccion[idSede].length>0){
       this.edificioActivado=true
       this.edificios=this.edificiosSeleccion[idSede]
@@ -196,27 +194,26 @@ export class QrscanComponent implements AfterViewInit {
     else{
       this.edificioActivado=false
       this.edificioCambiado=true
-    }
+    }*/
   }
 
-  cambioEdificio(){
-    this.salon=""
+  /*cambioEdificio(){
     this.edificioCambiado=true
-  }
+  }*/
 
   cargarSedes(){
     this.request.get(environment.OIKOS_SERVICE,"espacio_fisico/?limit=-1&query=TipoEspacio.Id:1")
     .subscribe((res :any) =>{
       if (res != [] && res!=null){
         this.sedes=res
-        this.cargarEdificios()
+        //this.cargarEdificios()
       }
     }, (error) => {
       console.log(error);
     });
   }
 
-  cargarEdificios(){
+  /*cargarEdificios(){
     this.edificiosSeleccion={}
     for (let sede of this.sedes){
       try{
@@ -239,5 +236,5 @@ export class QrscanComponent implements AfterViewInit {
         console.log(error);
       }
     }
-  }
+  }*/
 }
