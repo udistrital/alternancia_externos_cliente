@@ -125,6 +125,20 @@
                     </mat-radio-group>
 
                 </ng-container>
+                <ng-container *ngIf="infoVacunacion">
+                    <br>
+                    <label>{{infoVacunacion?infoVacunacion[3].name:""}}</label>
+                   
+                    <br><br>
+                    <mat-form-field appearance="outline">
+                        <mat-label>EPS</mat-label>
+                        <mat-select formControlName="eps" >
+                            <mat-option disabled selected> Selecciona una opcion</mat-option>
+                            <mat-option *ngFor='let eps of epsLista' value="{{eps}}">{{eps}}</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formVacunacion.get('empresaVacunacion').invalid">{{getErrorMessage(formVacunacion.get('eps'))}}</mat-error>
+                    </mat-form-field>
+                </ng-container>
                 <ng-container *ngIf="formVacunacion.get('radioVacunacion').value === 'true'">
                     <br>
                     <label>{{infoVacunacion?infoVacunacion[1].name:""}}</label>

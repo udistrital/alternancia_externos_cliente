@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 })
 export class InformacionBasicaComponent implements OnInit {
   isPost: boolean = true;
-  infoVacunacion: any[] = [{ dato: '' }, { dato: '' }, { dato: '' }];
+  infoVacunacion: any[] = [{ dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }];
   maxDate: Date = new Date();
   minDate: Date = new Date(2021, 0, 1);
   tercero: Tercero;
@@ -38,6 +38,7 @@ export class InformacionBasicaComponent implements OnInit {
   edad: number;
   source: LocalDataSource = new LocalDataSource();
   settings: any;
+  epsLista: string[] = [];
 
   formVacunacion: FormGroup;
 
@@ -48,7 +49,8 @@ export class InformacionBasicaComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder
   ) {
-  }
+    this.cargarEps()
+    }
 
   
   conditionallyRequiredValidator(formControl: AbstractControl) {
@@ -104,7 +106,15 @@ export class InformacionBasicaComponent implements OnInit {
     return fechaHora;
   }
 
-
+  public cargarEps(){
+    this.request.get(environment.PARAMETROS_SERVICE,"parametro/?limit=-1&query=TipoParametroId.Id:34&order=asc&sortby=Nombre")
+    .subscribe((res:any)=>{
+      var lista=res.Data
+      lista.forEach(reg=>{
+        this.epsLista.push(reg.Nombre)
+      })
+    })
+  }
 
   public calcularEdad(fechaNacimientoStr: string): number {
     if (fechaNacimientoStr) {
@@ -190,6 +200,7 @@ export class InformacionBasicaComponent implements OnInit {
               this.formVacunacion.get('radioVacunacion').setValue(this.infoVacunacion[0].dato);
               this.formVacunacion.get('fechaVacunacion').setValue(this.infoVacunacion[1].dato);
               this.formVacunacion.get('empresaVacunacion').setValue(this.infoVacunacion[2].dato);
+              this.formVacunacion.get('eps').setValue(this.infoVacunacion[3].dato);
             } else {
               this.isPost = true;
               this.infoVacunacion = consultaInfoVacunacion.map((itemVacunacion, index) => ({
@@ -213,6 +224,7 @@ export class InformacionBasicaComponent implements OnInit {
     this.infoVacunacion[0].dato = this.formVacunacion.get('radioVacunacion').value;
     this.infoVacunacion[1].dato = this.infoVacunacion[0].dato=='true'?this.formVacunacion.get('fechaVacunacion').value:"";
     this.infoVacunacion[2].dato = this.infoVacunacion[0].dato=='true'?this.formVacunacion.get('empresaVacunacion').value:"";
+    this.infoVacunacion[3].dato = this.formVacunacion.get('eps').value
 
     const isValidTerm = await this.utilService.termsAndConditional();
 
@@ -341,6 +353,7 @@ export class InformacionBasicaComponent implements OnInit {
   ngOnInit(): void {
     this.formVacunacion = this.formBuilder.group({
       radioVacunacion: ['', Validators.required],
+      eps: ['', Validators.required],
       fechaVacunacion: ['', this.conditionallyRequiredValidator],
       empresaVacunacion: ['', this.conditionallyRequiredValidator]
     });
