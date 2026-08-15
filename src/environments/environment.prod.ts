@@ -23,9 +23,9 @@ export const environment = {
     CLIENTE_ID: 'FNetHAKMBSgdqVGpg9uNN_43U9oa',
     RESPONSE_TYPE: 'id_token token',
     SCOPE: 'openid email',
-    REDIRECT_URL: 'https://alternanciaexternos.portaloas.udistrital.edu.co',
+    REDIRECT_URL: 'https://accesoudexternos.portaloas.udistrital.edu.co',
     SIGN_OUT_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oidc/logout',
-    SIGN_OUT_REDIRECT_URL: 'https://alternanciaexternos.portaloas.udistrital.edu.co',
+    SIGN_OUT_REDIRECT_URL: 'https://accesoudexternos.portaloas.udistrital.edu.co',
     AUTENTICACION_MID: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/autenticacion_mid/v1/token/userRol',
   },
 };
