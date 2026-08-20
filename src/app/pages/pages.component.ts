@@ -45,19 +45,6 @@ export class PagesComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    Swal.fire({
-      html: `
-      <h3 class="title-term-conditional">Importante !</h3>
-      <p class="text-term-condional">Actualmente esta aplicación se encuentra en construcción</p>
-      <h4 class="subtitle-term-conditional">Fases: </h4>
-      <ul class="important-list">
-        <li><div class="item-list-important"> <span class="material-icons md-30 success">assignment_turned_in</span> Caracterización. </div> </li>
-        <li><div class="item-list-important"> <span class="material-icons md-30 success">assignment_turned_in</span> Análisis. </div> </li>
-        <li><div class="item-list-important"> <span class="material-icons md-30 success">assignment_turned_in</span> Control de acceso. </div> </li>
-        <li><div class="item-list-important"> <span class="material-icons md-30 pending">pending_actions</span> Registro de síntomas. </div> </li>
-      </ul>
-      `,
-    })
     this.loaded = true;
 
     this.userService.user$.subscribe((data: any)=> {
