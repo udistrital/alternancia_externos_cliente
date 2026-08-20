@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 })
 export class InformacionBasicaComponent implements OnInit {
   isPost: boolean = true;
-  infoVacunacion: any[] = [{ dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }];
+  infoVacunacion: any[] = [{ dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }];
   maxDate: Date = new Date();
   minDate: Date = new Date(2021, 0, 1);
   tercero: Tercero;
@@ -49,10 +49,10 @@ export class InformacionBasicaComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder
   ) {
-    this.cargarEps()
+    //this.cargarEps()
     }
 
-  
+  /*
   conditionallyRequiredValidator(formControl: AbstractControl) {
     if (!formControl.parent) {
       return null;
@@ -70,7 +70,7 @@ export class InformacionBasicaComponent implements OnInit {
       return 'Introduzca un valor válido';
     }
   }
-
+/*
   cargarCampos() {
     this.settings = {
       actions: false,
@@ -99,13 +99,13 @@ export class InformacionBasicaComponent implements OnInit {
       },
     };
   }
-
+*/
   public corregirFecha(fecha: string): Date {
     let fechaHora = new Date(fecha);
     fechaHora.setHours(fechaHora.getHours() + 5);
     return fechaHora;
   }
-
+/*
   public cargarEps(){
     this.request.get(environment.PARAMETROS_SERVICE,"parametro/?limit=-1&query=TipoParametroId.Id:34&order=asc&sortby=Nombre")
     .subscribe((res:any)=>{
@@ -115,7 +115,7 @@ export class InformacionBasicaComponent implements OnInit {
       })
     })
   }
-
+*/
   public calcularEdad(fechaNacimientoStr: string): number {
     if (fechaNacimientoStr) {
       const actual = new Date();
@@ -131,7 +131,7 @@ export class InformacionBasicaComponent implements OnInit {
       return null
     }
   }
-
+/*
   public asignarVinculacion(vinculacion: Vinculacion) {
     let idRol: number = vinculacion.TipoVinculacion.Id;
 
@@ -194,13 +194,15 @@ export class InformacionBasicaComponent implements OnInit {
                 ...itemVacunacion,
                 ...{ form: datosInfoVacunacion[index] },
                 label: itemVacunacion['Nombre'],
-                dato: index == 1 ? this.corregirFecha((JSON.parse(datosInfoVacunacion[index].Dato)).dato) : JSON.parse(datosInfoVacunacion[index].Dato).dato,
+                dato: index == 1 ? this.corregirFecha((JSON.parse(datosInfoVacunacion[index].Dato)).dato) : datosInfoVacunacion[index]?JSON.parse(datosInfoVacunacion[index].Dato).dato:"",
                 name: itemVacunacion['Nombre']
               }))
-              this.formVacunacion.get('radioVacunacion').setValue(this.infoVacunacion[0].dato);
-              this.formVacunacion.get('fechaVacunacion').setValue(this.infoVacunacion[1].dato);
-              this.formVacunacion.get('empresaVacunacion').setValue(this.infoVacunacion[2].dato);
-              this.formVacunacion.get('eps').setValue(this.infoVacunacion[3].dato);
+              this.formVacunacion.get('radioVacunacion').setValue(this.infoVacunacion[0]?this.infoVacunacion[0].dato:"");
+              this.formVacunacion.get('fechaVacunacion').setValue(this.infoVacunacion[1]?this.infoVacunacion[1].dato:"");
+              this.formVacunacion.get('empresaVacunacion').setValue(this.infoVacunacion[2]?this.infoVacunacion[2].dato:"");
+              this.formVacunacion.get('eps').setValue(this.infoVacunacion[3]?this.infoVacunacion[3].dato:"");
+              this.formVacunacion.get('urlCertificado').setValue(this.infoVacunacion[4]?this.infoVacunacion[4].dato:"");
+              this.formVacunacion.get('faseVacunacion').setValue(this.infoVacunacion[5]?this.infoVacunacion[5].dato:"");
             } else {
               this.isPost = true;
               this.infoVacunacion = consultaInfoVacunacion.map((itemVacunacion, index) => ({
@@ -225,6 +227,8 @@ export class InformacionBasicaComponent implements OnInit {
     this.infoVacunacion[1].dato = this.infoVacunacion[0].dato=='true'?this.formVacunacion.get('fechaVacunacion').value:"";
     this.infoVacunacion[2].dato = this.infoVacunacion[0].dato=='true'?this.formVacunacion.get('empresaVacunacion').value:"";
     this.infoVacunacion[3].dato = this.formVacunacion.get('eps').value
+    this.infoVacunacion[4].dato = this.formVacunacion.get('urlCertificado').value
+    this.infoVacunacion[5].dato = this.formVacunacion.get('faseVacunacion').value
 
     const isValidTerm = await this.utilService.termsAndConditional();
 
@@ -252,7 +256,6 @@ export class InformacionBasicaComponent implements OnInit {
 
           from(this.infoVacunacion)
             .subscribe((itemVacunacion: any) => {
-
               let itemVacunacionTercero = {
                 TerceroId: { Id: this.tercero.Id },
                 InfoComplementariaId: {
@@ -262,7 +265,7 @@ export class InformacionBasicaComponent implements OnInit {
                 Activo: true,
               };
 
-              if (this.isPost) {
+              if (itemVacunacion.form?false:true) {
                 this.request
                   .post(environment.TERCEROS_SERVICE, 'info_complementaria_tercero/', itemVacunacionTercero)
                   .subscribe((data: any) => {
@@ -302,7 +305,6 @@ export class InformacionBasicaComponent implements OnInit {
                     });
                   };
               } else {
-
                 this.request
                   .put(environment.TERCEROS_SERVICE, 'info_complementaria_tercero', itemVacunacionTercero, itemVacunacion.form.Id)
                   .subscribe((data: any) => {
@@ -349,13 +351,15 @@ export class InformacionBasicaComponent implements OnInit {
       });
     }
   }
-
+*/
   ngOnInit(): void {
-    this.formVacunacion = this.formBuilder.group({
+   /* this.formVacunacion = this.formBuilder.group({
       radioVacunacion: ['', Validators.required],
       eps: ['', Validators.required],
       fechaVacunacion: ['', this.conditionallyRequiredValidator],
-      empresaVacunacion: ['', this.conditionallyRequiredValidator]
+      empresaVacunacion: ['', this.conditionallyRequiredValidator],
+      urlCertificado: ['', [Validators.required, Validators.pattern("https:\/\/(mivacuna.sispro.gov.co\/MiVacuna\/CDVCOL\/ValCertDigVac){1}[/#?]?.*$")]],
+      faseVacunacion: ['', this.conditionallyRequiredValidator]
     });
     this.formVacunacion.get('radioVacunacion').valueChanges
         .subscribe(value => {
@@ -363,9 +367,11 @@ export class InformacionBasicaComponent implements OnInit {
             this.formVacunacion.get('fechaVacunacion').updateValueAndValidity();
             this.formVacunacion.get('empresaVacunacion').setValue("");
             this.formVacunacion.get('empresaVacunacion').updateValueAndValidity();
+            this.formVacunacion.get('faseVacunacion').setValue("");
+            this.formVacunacion.get('faseVacunacion').updateValueAndValidity();
     });
 
-    this.cargarCampos();
+    this.cargarCampos();*/
     this.userService.user$.subscribe((data) => {
       this.request.get(environment.TERCEROS_SERVICE, `datos_identificacion/?query=Numero:` + data['userService']['documento'])
         .subscribe((datosInfoTercero: any) => {
@@ -379,7 +385,7 @@ export class InformacionBasicaComponent implements OnInit {
             this.tercero.FechaNacimiento = this.corregirFecha(this.tercero.FechaNacimiento);
 
             this.edad = this.calcularEdad(this.tercero ? this.tercero.FechaNacimiento ? this.tercero.FechaNacimiento : null : null);
-            this.request.get(environment.TERCEROS_SERVICE, `info_complementaria_tercero/?query=TerceroId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`
+            /*this.request.get(environment.TERCEROS_SERVICE, `info_complementaria_tercero/?query=TerceroId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`
               + `,InfoComplementariaId.GrupoInfoComplementariaId.Id:6`)
               .subscribe((datosInfoGenero: any) => {
                 this.datosGenero = datosInfoGenero[0];
@@ -402,10 +408,10 @@ export class InformacionBasicaComponent implements OnInit {
               }, (error) => {
                 console.log(error);
               })
-
-            this.consultarInfoVacunacion();
-
-            this.request.get(environment.TERCEROS_SERVICE, `vinculacion/?query=Activo:true,TerceroPrincipalId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`)
+*/
+            //this.consultarInfoVacunacion();
+/*
+           this.request.get(environment.TERCEROS_SERVICE, `vinculacion/?query=Activo:true,TerceroPrincipalId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`)
               .subscribe((datosInfoVinculaciones: any) => {
                 this.vinculaciones = datosInfoVinculaciones;
                 this.vinculacionesDocente = [];
@@ -434,7 +440,7 @@ export class InformacionBasicaComponent implements OnInit {
                   }
                 }
 
-              })
+              })*/
           }
         }, (error) => {
           console.log(error);

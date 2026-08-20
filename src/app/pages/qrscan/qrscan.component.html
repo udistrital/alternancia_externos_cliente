@@ -1,3 +1,14 @@
+<div class="mobile-container" >
+  <!-- Encabezado Superior -->
+  <header class="app-header">
+    
+    <div class="header-title">
+      <span class="university-text">UNIVERSIDAD DISTRITAL</span>
+      <span class="sub-text">FRANCISCO JOSÉ DE CALDAS</span>
+    </div>
+    
+  </header>
+<main class="main-content">
 <div *ngIf="loaderService.isLoading | async" class="loader-container">
     <mat-spinner style="top: 50%;left: 50%;"></mat-spinner>
 </div>
@@ -15,15 +26,20 @@
           </mat-select>
         </mat-form-field>
         <br>
-        <!--<mat-form-field appearance="fill" *ngIf="edificioActivado">
+        <mat-form-field appearance="fill" *ngIf="edificioActivado">
           <mat-label>Edificio</mat-label>
           <mat-select (selectionChange)="cambioEdificio()" [(value)]=edificioSeleccionado>
             <mat-option disabled selected> Selecciona una opcion</mat-option>
             <mat-option *ngFor="let edificio of edificios" [value]="edificio.Id">{{edificio.Nombre}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <br  *ngIf="edificioCambiado">-->
-        <mat-radio-group aria-label="Seleccione el tipo de escaneo" [(ngModel)]="tipo">
+        <br *ngIf="edificioActivado">
+        <mat-form-field appearance="fill" *ngIf="edificioCambiado">
+            <mat-label>Salon</mat-label>
+            <input matInput [(ngModel)]="salon">
+        </mat-form-field>
+        <br  *ngIf="edificioCambiado">
+        <mat-radio-group aria-label="Seleccione el tipo de escaneo" *ngIf="edificioActivado"  [(ngModel)]="tipo">
             <mat-radio-button value="in" selected>Entrada</mat-radio-button>&nbsp;
             <mat-radio-button value="out">Salida</mat-radio-button>
         </mat-radio-group>
@@ -63,4 +79,36 @@
     </qr-scanner>
     </mat-card-content>
 </mat-card>
-<br>
+
+</main>
+
+<nav class="bottom-nav">
+    <a class="nav-item" 
+       routerLink="/pages/dashboard" 
+       routerLinkActive="active"
+       matTooltip="Carnet" 
+       matTooltipPosition="above">
+        <mat-icon>assignment</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/qrcode"
+       routerLinkActive="active" matTooltip="Mi QR" matTooltipPosition="above">
+        <mat-icon>qr_code_2</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/ingreso" 
+       routerLinkActive="active" matTooltip="Leer QR" matTooltipPosition="above">
+        <mat-icon>qr_code_1</mat-icon>
+        
+       </a>
+     
+     
+      <a class="nav-item" 
+       routerLink="/pages/informacion_basica" 
+       routerLinkActive="active" matTooltip="Perfil" matTooltipPosition="above">
+        <mat-icon>person_outline</mat-icon>
+        
+       </a>
+  </nav>

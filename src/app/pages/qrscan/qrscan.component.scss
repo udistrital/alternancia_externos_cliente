@@ -27,3 +27,90 @@
   opacity: 0.6;
   z-index: 99;
 }
+
+.mobile-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 450px;
+  margin: 0 auto;
+  background-color: #2c2c2c;
+  color: white;
+  overflow: hidden;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #7f1d1d;
+  padding: 8px;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.text-white {
+  color: white !important;
+}
+
+.header-actions .mat-icon-button {
+  color: white;
+}
+
+/* Barra inferior */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+  height: 64px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item .mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+/* Icono activo con fondo rojo cuadrado */
+.nav-item.active .mat-icon {
+  color: white;
+  background-color: #d32f2f;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.nav-item.center-add .mat-icon {
+  color: #d32f2f;
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+}

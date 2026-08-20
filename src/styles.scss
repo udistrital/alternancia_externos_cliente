@@ -1,6 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
-@import url("https://pruebasassets.portaloas.udistrital.edu.co/athenea-style.css");
-@import url("https://pruebasassets.portaloas.udistrital.edu.co/oas.css");
+//@import url("https://pruebasassets.portaloas.udistrital.edu.co/gaia-style.css");
+//@import url("https://pruebasassets.portaloas.udistrital.edu.co/oas.css");
+
+:root {
+  --primary: #731514 !important;
+  --color100: #FFEAE6;
+}
+
+.header-container {
+  display: none !important;
+
+}
+
+.footer-div {
+  display: none !important;
+
+}
+
+.username-info {
+  display: none !important;
+
+}
+
+
+.header-button-user-container {
+  color: var(--color100);
+}
+
+.ng-tns-c13-0 {
+  background-color: #7f1d1d;
+}
+
+
+
 @import "~@angular/material/theming";
 // @import '~ngx-toastr/toastr';
 
@@ -23,8 +55,7 @@ $primary: (
   A200: var(--primary),
   A400: var(--primary),
   A700: var(--primary),
-  contrast: (
-    50: white,
+  contrast: (50: white,
     100: white,
     200: white,
     300: white,
@@ -53,9 +84,11 @@ b {
 
 .example-month-picker.mat-calendar {
   height: 250px !important;
+
   .mat-calendar-table {
     border-collapse: unset;
   }
+
   .mat-calendar-table-header th {
     padding: 0px 0;
   }
@@ -77,9 +110,7 @@ table tbody tr td:nth-child(n + 2) {
   padding: 0.25em 0 0em 0 !important;
 }
 
-.card-oas {
-  width: calc(100vw - 60px);
-}
+
 
 mat-label {
   color: var(--primary);
@@ -104,8 +135,7 @@ mat-label {
 }
 
 .mat-input-element:disabled,
-.mat-form-field-type-mat-native-select.mat-form-field-disabled
-  .mat-form-field-infix::after {
+.mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
   color: #333;
 }
 
@@ -152,6 +182,7 @@ ul {
   font-family: "Open Sans";
   font-size: 1rem;
 }
+
 .main-container {
   flex-direction: column;
 }
@@ -207,10 +238,12 @@ a {
   text-align: justify;
   font-family: "Open Sans";
   font-size: 1rem;
+
   .success {
     color: var(--primary);
     margin-right: 1rem;
   }
+
   .pending {
     color: var(--color1);
     margin-right: 1rem;
@@ -222,6 +255,7 @@ a {
     font-size: 0.675em !important;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .username-info {
     display: none;
