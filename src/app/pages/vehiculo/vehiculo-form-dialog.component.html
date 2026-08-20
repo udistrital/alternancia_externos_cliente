@@ -1,0 +1,112 @@
+<h2 mat-dialog-title>Solicitar Activación de Vehiculo</h2>
+
+<mat-dialog-content>
+  
+
+  <form [formGroup]="vehiculoForm" class="form-container">
+        <mat-form-field appearance="outline">
+          <mat-label>PLACA / REFERENCIA</mat-label>
+          <input matInput formControlName="placa" placeholder="Ej. CVD568">
+        </mat-form-field>
+       
+        <div class="radio-container">
+    <label class="radio-group-label">Tipo de Vehículo</label>
+    
+    <mat-radio-group 
+      formControlName="tipoVehiculo" 
+      class="radio-group-vertical">
+      
+      <!-- Iteración del array de strings -->
+      <mat-radio-button 
+        *ngFor="let opcion of tipoVehiculosLista" 
+        [value]="opcion"
+        class="radio-item">
+        {{ opcion }}
+      </mat-radio-button>
+
+    </mat-radio-group>
+  </div>
+  <div class="campos-bicicleta-container" *ngIf="vehiculoForm.get('tipoVehiculo')?.value === 'BICICLETA'">
+     <mat-form-field>
+  <mat-label>¿ BICICLETA REGISTRADA EN MOVILIDAD ?</mat-label>
+  <select matNativeControl formControlName="registradaMovilidad">
+    <option value="" disabled selected>Seleccione una opción</option>
+    <option value="SI">SI</option>
+    <option value="NO">NO</option>
+    
+  </select>
+</mat-form-field>
+</div>
+<div class="checkbox-container">
+    <label class="checkbox-group-label">Sedes</label>
+    
+    <!-- Opción Padre: Controlada con funciones auxiliares -->
+    <mat-checkbox 
+      [checked]="isTodasMarcadas()"
+      color="primary"
+      (change)="onChangeTodas($event.checked)">
+      <strong>TODAS</strong>
+    </mat-checkbox>
+
+    <!-- Subcategorías (Iteración de la lista de sedes disponibles) -->
+    <div class="checkbox-subgroup">
+      <mat-checkbox 
+        *ngFor="let sede of parqueaderosLista"
+        [checked]="isSedeSeleccionada(sede)"
+        color="primary"
+        (change)="onChangeSubsede($event.checked, sede)">
+        {{ sede }}
+      </mat-checkbox>
+    </div>
+  </div>
+ <div class="radio-container">
+    <label class="radio-group-label">Días</label>
+    
+    <mat-radio-group 
+      formControlName="horario" 
+      class="radio-group-vertical">
+      
+      <!-- Iteración del array de strings -->
+      <mat-radio-button 
+        *ngFor="let horario of horariosLista" 
+        [value]="horario"
+        class="radio-item">
+        {{ horario }}
+      </mat-radio-button>
+
+    </mat-radio-group>
+  </div>
+  <!-- SECCIÓN NUEVA: Subida de Documento de Identidad (Obligatorio siempre) -->
+  <div class="file-upload-container">
+    <label class="file-label">Documento de Identidad (PDF) *</label>
+    <div class="file-actions">
+      <input type="file" #docInput accept=".pdf" (change)="onFileSelected($event, 'documentoIdentidadPdf')" style="display: none;">
+      <button type="button" mat-stroked-button color="primary" (click)="docInput.click()">
+        <mat-icon>upload_file</mat-icon> Seleccionar PDF
+      </button>
+      <span class="file-name">{{ getFileName('documentoIdentidadPdf') }}</span>
+    </div>
+  </div>
+
+  <!-- SECCIÓN NUEVA: Subida de Tarjeta de Propiedad (Condicional, oculta si es Bicicleta) -->
+   <p>Adjuntar soportes como tarjeta de propiedad, carta de autorización de no ser el dueño del vehiculo, etc </p>
+   <p>En un solo PDF </p>
+  <div class="file-upload-container">
+    <label class="file-label">Soportes (PDF) *</label>
+    <div class="file-actions">
+      <input type="file" #tarjetaInput accept=".pdf" (change)="onFileSelected($event, 'tarjetaPropiedadPdf')" style="display: none;">
+      <button type="button" mat-stroked-button color="primary" (click)="tarjetaInput.click()">
+        <mat-icon>upload_file</mat-icon> Seleccionar PDF
+      </button>
+      <span class="file-name">{{ getFileName('tarjetaPropiedadPdf') }}</span>
+    </div>
+  </div>
+  
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-button color="primary" (click)="onConfirm()">Solicitar</button>
+</mat-dialog-actions>

@@ -1,0 +1,186 @@
+  <div class="mobile-container" *ngIf="tercero && datosIdentificacion">
+  <!-- Encabezado Superior -->
+  <header class="app-header">
+    
+    <div class="header-title">
+      <span class="university-text">UNIVERSIDAD DISTRITAL</span>
+      <span class="sub-text">FRANCISCO JOSÉ DE CALDAS</span>
+    </div>
+    
+  </header>
+
+  <!-- Contenido Central -->
+  <main class="main-content">
+
+    <mat-tab-group [(selectedIndex)]="pestanaActiva" class="tabs-rojas">
+  <mat-tab label="Vehiculos">
+    <ul>
+      <li *ngFor="let vehiculo of vehiculos">
+
+        <!-- Tarjeta Central de Información de Vehículo -->
+            <mat-card class="vehicle-card" >
+              <mat-card-content class="card-body">
+              <mat-chip-list
+          class="sedes-chip"
+          >
+          <mat-chip
+            class="sedes-box"
+            *ngFor="let sede of vehiculo.sedes">
+            {{sede}}
+          </mat-chip>
+        </mat-chip-list>
+            
+                <!-- Insignia Amarilla de Placa N/A -->
+                <div *ngIf="vehiculo.placa === ''" class="plate-badge">
+                  <span>N/A</span>
+                </div>
+                <div *ngIf="vehiculo.placa  !== ''" class="plate-badge">
+                  <div *ngIf="vehiculo.tipoVehiculo === 'CARRO'">
+                <mat-icon>directions_car</mat-icon>
+            </div>
+            <div *ngIf="vehiculo.tipoVehiculo === 'MOTO'">
+                <mat-icon>two_wheeler</mat-icon>
+            </div>
+            <div *ngIf="vehiculo.tipoVehiculo === 'BICICLETA'">
+                <mat-icon>directions_bike</mat-icon>
+            </div>
+            <div *ngIf="vehiculo.tipoVehiculo === 'MOTO ELECTRICA'">
+                <mat-icon>moped</mat-icon>
+            </div>
+                  <span>{{vehiculo.placa}}</span>
+                </div>
+                
+
+                <!-- Texto descriptivo inferior -->
+                <div *ngIf="vehiculo.activo === true" >
+                <p class="status-text">Vehículo aprobado</p>
+                </div>
+                <div *ngIf="vehiculo.activo !== true" >
+                <p class="status-text">Vehículo no aprobado</p>
+                </div>
+              </mat-card-content>
+            </mat-card>  
+        </li>
+      </ul>
+      <div class="example-button-container">
+          <button mat-fab color="primary" class="left-align-btn" (click)="openInsertDialog()">
+            <mat-icon>add</mat-icon>
+             </button>
+      </div>
+    </mat-tab>
+    <mat-tab label="Solicitudes">  
+       <ul>
+      <li *ngFor="let vehiculo_inactivo of vehiculos_inactivos">
+
+        <!-- Tarjeta Central de Información de Vehículo -->
+            <mat-card class="vehicle-card" >
+              <mat-card-content class="card-body">
+              <mat-chip-list
+          class="sedes-chip"
+          >
+          <mat-chip
+            class="sedes-box"
+            *ngFor="let sede of vehiculo_inactivo.sedes">
+            {{sede}}
+          </mat-chip>
+        </mat-chip-list>
+            
+                <!-- Insignia Amarilla de Placa N/A -->
+                <div *ngIf="vehiculo_inactivo.placa === ''" class="plate-badge-inactivo">
+                  <span>N/A</span>
+                </div>
+                <div *ngIf="vehiculo_inactivo.placa  !== ''" class="plate-badge-inactivo">
+                  <div *ngIf="vehiculo_inactivo.tipoVehiculo === 'CARRO'">
+                <mat-icon>directions_car</mat-icon>
+            </div>
+            <div *ngIf="vehiculo_inactivo.tipoVehiculo === 'MOTO'">
+                <mat-icon>two_wheeler</mat-icon>
+            </div>
+            <div *ngIf="vehiculo_inactivo.tipoVehiculo === 'BICICLETA'">
+                <mat-icon>directions_bike</mat-icon>
+            </div>
+            <div *ngIf="vehiculo_inactivo.tipoVehiculo === 'MOTO ELECTRICA'">
+                <mat-icon>moped</mat-icon>
+            </div>
+                  <span>{{vehiculo_inactivo.placa}}</span>
+                </div>
+                
+
+                <!-- Texto descriptivo inferior -->
+                <div *ngIf="vehiculo_inactivo.activo === true" >
+                <p class="status-text">Vehículo aprobado</p>
+                </div>
+                <div *ngIf="vehiculo_inactivo.activo !== true" >
+                <p class="status-text">Vehículo no aprobado</p>
+                </div>
+              </mat-card-content>
+            </mat-card>  
+        </li>
+      </ul>
+  </mat-tab>
+  <mat-tab label="Historial">  
+        <ul>
+      <li>
+            <mat-card class="vehicle-card" >
+          
+              <mat-card-content class="card-body">
+                
+                  No se encontraron registros
+                
+              </mat-card-content>
+            </mat-card>  
+        
+         </li>
+          </ul>
+  </mat-tab>
+  
+</mat-tab-group>
+
+
+
+
+   
+  </main>
+
+  <!-- Barra de Navegación Inferior -->
+  <nav class="bottom-nav">
+    <a class="nav-item" 
+       routerLink="/pages/dashboard" 
+       routerLinkActive="active"
+       matTooltip="Carnet" 
+       matTooltipPosition="above">
+        <mat-icon>assignment</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/qrcode" 
+       routerLinkActive="active" matTooltip="Mi QR" matTooltipPosition="above">
+        <mat-icon>qr_code_2</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/ingreso" 
+       routerLinkActive="active" matTooltip="Leer QR" matTooltipPosition="above">
+        <mat-icon>qr_code_1</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/vehiculo" 
+       routerLinkActive="active" matTooltip="Parqueadero" matTooltipPosition="above">
+        <mat-icon>directions_car</mat-icon>
+        
+       </a>
+      
+      <a class="nav-item" 
+       routerLink="/pages/informacion_basica" 
+       routerLinkActive="active" matTooltip="Perfil" matTooltipPosition="above">
+        <mat-icon>person_outline</mat-icon>
+        
+       </a>
+  </nav>
+</div>
+
+
+
+
+

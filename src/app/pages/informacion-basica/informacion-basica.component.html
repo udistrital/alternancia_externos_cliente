@@ -1,3 +1,19 @@
+ <div class="mobile-container" *ngIf="tercero && datosIdentificacion">
+  <!-- Encabezado Superior -->
+  <header class="app-header">
+    
+    <div class="header-title">
+      <span class="university-text">UNIVERSIDAD DISTRITAL</span>
+      <span class="sub-text">FRANCISCO JOSÉ DE CALDAS</span>
+    </div>
+    
+  </header>
+
+  <!-- Contenido Central -->
+  <main class="main-content">   
+
+
+
 <mat-card class="card-oas" *ngIf="tercero && datosIdentificacion">
     <mat-card-header>
         <!-- <mat-card-title>Terceros</mat-card-title>
@@ -6,7 +22,7 @@
         <mat-card-title>Información básica</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
+        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 1, md: 1, lg: 1, xl: 1}" rowHeight="40px" gutterSize="10px">
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
                     <mat-label>Primer nombre</mat-label>
@@ -34,7 +50,7 @@
 
         </mat-grid-list>
         <br>
-        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
+        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 1, md: 1, lg: 1, xl: 1}" rowHeight="40px" gutterSize="10px">
 
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
@@ -48,41 +64,12 @@
                     <input matInput type="number" value="{{datosIdentificacion.Numero}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>
-            <mat-grid-tile>
-                <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Fecha de expedicion del documento</mat-label>
-                    <input matInput type="text" [value]="datosIdentificacion.FechaExpedicion | date: 'dd/MM/yyyy'"
-                        disabled>
-                </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Localidad </mat-label>
-                    <input matInput type="text"
-                        value="{{datosLocalidad?datosLocalidad.InfoComplementariaId?datosLocalidad.InfoComplementariaId.Nombre:'':''}}"
-                        disabled>
-                </mat-form-field>
-            </mat-grid-tile>
+            
+           
         </mat-grid-list>
 
         <br>
-        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
-            <mat-grid-tile>
-                <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Género</mat-label>
-                    <input matInput type="text"
-                        value="{{datosGenero?datosGenero.InfoComplementariaId?datosGenero.InfoComplementariaId.Nombre:'':''}}"
-                        disabled>
-                </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Estado civil</mat-label>
-                    <input matInput type="text"
-                        value="{{datosEstadoCivil?datosEstadoCivil.InfoComplementariaId?datosEstadoCivil.InfoComplementariaId.Nombre:'':''}}"
-                        disabled>
-                </mat-form-field>
-            </mat-grid-tile>
+        <mat-grid-list [appOasGridCols]="{xs: 1, sm: 1, md: 1, lg: 1, xl: 1}" rowHeight="40px" gutterSize="10px">
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
                     <mat-label>Fecha de nacimiento</mat-label>
@@ -100,8 +87,8 @@
 
     </mat-card-content>
 </mat-card>
-<br />
-
+</main>
+ <!--
 <mat-card class="card-oas" *ngIf="tercero && datosIdentificacion">
 
     <mat-card-header>
@@ -136,7 +123,7 @@
                             <mat-option disabled selected> Selecciona una opcion</mat-option>
                             <mat-option *ngFor='let eps of epsLista' value="{{eps}}">{{eps}}</mat-option>
                           </mat-select>
-                          <mat-error *ngIf="formVacunacion.get('empresaVacunacion').invalid">{{getErrorMessage(formVacunacion.get('eps'))}}</mat-error>
+                          <mat-error *ngIf="formVacunacion.get('eps').invalid">{{getErrorMessage(formVacunacion.get('eps'))}}</mat-error>
                     </mat-form-field>
                 </ng-container>
                 <ng-container *ngIf="formVacunacion.get('radioVacunacion').value === 'true'">
@@ -152,8 +139,7 @@
                         <mat-error *ngIf="formVacunacion.get('fechaVacunacion').invalid">{{getErrorMessage(formVacunacion.get('fechaVacunacion'))}}</mat-error>
                     </mat-form-field>
                     <br>
-                    <label>{{infoVacunacion?infoVacunacion[2].name:""}}</label>
-                   
+                    <label>{{infoVacunacion?infoVacunacion[2].name:""}}</label>                   
                     <br><br>
                     <mat-form-field appearance="outline">
                         <mat-label>Empresa</mat-label>
@@ -167,7 +153,29 @@
                           </mat-select>
                           <mat-error *ngIf="formVacunacion.get('empresaVacunacion').invalid">{{getErrorMessage(formVacunacion.get('empresaVacunacion'))}}</mat-error>
                     </mat-form-field>
-                </ng-container>
+                    <br>
+                    <label>{{infoVacunacion?infoVacunacion[5].name:""}}</label>                   
+                    <br><br>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fase</mat-label>
+                        <mat-select formControlName="faseVacunacion" >
+                            <mat-option disabled selected> Selecciona una opcion</mat-option>
+                            <mat-option value="Esquema incompleto">Esquema incompleto</mat-option>
+                            <mat-option value="Esquema completo">Esquema completo</mat-option>
+                            <mat-option value="Dosis de refuerzo">Dosis de refuerzo</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formVacunacion.get('faseVacunacion').invalid">{{getErrorMessage(formVacunacion.get('faseVacunacion'))}}</mat-error>
+                    </mat-form-field>
+                </ng-container>                
+                <br>
+                    
+                <label>{{infoVacunacion[4]?infoVacunacion[4].name:""}}</label>
+                <br><br>
+                    <mat-form-field appearance="outline">
+                        <mat-label>URL</mat-label>
+                        <input matInput placeholder="https://mivacuna.sispro.gov.co/MiVacuna/CDVCOL/..." value="" type="url" pattern="https:\/\/[mivacuna.sispro.gov.co/MiVacuna\-]+[/#?]?.*$" formControlName="urlCertificado">
+                        <mat-error *ngIf="formVacunacion.get('urlCertificado').invalid">{{getErrorMessage(formVacunacion.get('urlCertificado'))}}</mat-error>
+                    </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions>
@@ -247,7 +255,7 @@
                 </mat-expansion-panel-header>
 
 
-                <!--                 <div class="div-table" style="text-align:center">
+                            <div class="div-table" style="text-align:center">
 
                     <b><span>Carga academica Período 2021-1</span></b>
                     <br>
@@ -257,8 +265,7 @@
 
 
                     </ng2-smart-table>
-                </div> -->
-
+                </div>  
 
             </mat-expansion-panel>
 
@@ -267,6 +274,42 @@
 
     </mat-card-content>
 
-</mat-card>
+</mat-card>-->
 
-<br><br><br>
+ <!-- Barra de Navegación Inferior -->
+  <nav class="bottom-nav">
+    <a class="nav-item" 
+       routerLink="/pages/dashboard" 
+       routerLinkActive="active"
+       matTooltip="Carnet" 
+       matTooltipPosition="above">
+        <mat-icon>assignment</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/qrcode" 
+       routerLinkActive="active" matTooltip="Mi QR" matTooltipPosition="above">
+        <mat-icon>qr_code_2</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/ingreso" 
+       routerLinkActive="active" matTooltip="Leer QR" matTooltipPosition="above">
+        <mat-icon>qr_code_1</mat-icon>
+        
+       </a>
+      
+      
+      <a class="nav-item" 
+       routerLink="/pages/informacion_basica" 
+       routerLinkActive="active" matTooltip="Perfil" matTooltipPosition="above">
+        <mat-icon>person_outline</mat-icon>
+        
+       </a>
+  </nav>
+
+
+
+
+
+

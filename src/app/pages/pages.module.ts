@@ -5,9 +5,10 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesComponent } from './pages.component';
 import { InformacionBasicaComponent } from './informacion-basica/informacion-basica.component';
+import { CarnetComponent } from './carnet/carnet.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestManager } from './services/requestManager';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS,} from '@angular/material-moment-adapter';
 import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -31,13 +32,17 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { OasGridColsDirective } from './directives/oas-grid-cols.directive';
 import { QrCodeModule } from 'ng-qrcode';
 import { QrComponent } from './qr/qr.component';
-
+import { MatTabsModule } from '@angular/material/tabs';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { QrscanComponent } from './qrscan/qrscan.component';
 import { NgQrScannerModule } from 'angular2-qrscanner';
 import { UtilService } from './services/utilService';
 import { UserService } from './services/userService';
 import { InterceptorService } from '../loader/interceptor.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { VehiculoComponent } from './vehiculo/vehiculo.component';
+import { VehiculoFormDialogComponent } from './vehiculo/vehiculo-form-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 const pagesComponents = [
@@ -46,6 +51,9 @@ const pagesComponents = [
   InformacionBasicaComponent,
   SaludActualComponent,
   PreexistenciaComponent,
+  CarnetComponent,
+  VehiculoComponent,
+  VehiculoFormDialogComponent
 ];
 
 const materialModules = [
@@ -64,7 +72,11 @@ const materialModules = [
   MatStepperModule,
   MatRadioModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatTabsModule,
+  MatMenuModule,
+  MatTooltipModule,
+  MatDialogModule  
 ];
 @NgModule({
   declarations: [

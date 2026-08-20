@@ -1,0 +1,97 @@
+  <div class="mobile-container" *ngIf="tercero && datosIdentificacion">
+  <!-- Encabezado Superior -->
+  <header class="app-header">
+    
+    <div class="header-title">
+      <span class="university-text">UNIVERSIDAD DISTRITAL</span>
+      <span class="sub-text">FRANCISCO JOSÉ DE CALDAS</span>
+    </div>
+    
+  </header>
+
+  <!-- Contenido Central -->
+  <main class="main-content">
+    <div class="profile-hero-section">
+      
+     <div class="image-clickable-zone"      [class.disabled]="!isClickEnabled"     (click)="isClickEnabled && fileInput.click()">
+
+        <img [src]="imagePreview ? imagePreview : 'assets/imagen_defecto.png'" alt="Foto de perfil" class="profile-bg-image">
+          <div class="hover-overlay">
+      <span>Cambiar imagen</span>
+    </div>
+          <input type="file"   #fileInput  style="display: none;" (change)="onFileSelected($event)" accept=".png, .jpg, .jpeg">
+      </div>
+      <!-- Tarjeta de Identificación -->
+      <mat-card class="id-card">
+        <mat-card-content>
+          <div class="id-card-layout">
+            <div class="user-info">
+              <h2>{{tercero.PrimerNombre}} {{tercero.SegundoNombre}}<br>{{tercero.PrimerApellido}} {{tercero.SegundoApellido}}</h2>
+              <p class="meta-text">{{datosIdentificacion.TipoDocumentoId.CodigoAbreviacion}} {{datosIdentificacion.Numero}} / RH: {{RH}}</p>
+              
+              <div *ngIf="vinculaciones?.length">
+                  <p class="dep-text">{{ opcionSeleccionada?.Dependencia?.Nombre || '' }}</p>
+                  <p class="dep-text">{{ opcionSeleccionada.Activo?'ACTIVO':'INACTIVO'}} - {{ opcionSeleccionada.FechaFinVinculacion ? (opcionSeleccionada.FechaFinVinculacion | date: 'dd/MM/yyyy':'') : '' }}</p>
+                  <!-- Botón Desplegable Tradicional -->
+                  <button mat-flat-button color="warn" class="badge-button" [matMenuTriggerFor]="menu">
+                    {{ opcionSeleccionada?.TipoVinculacion?.Nombre || ''}}
+                    
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button 
+                    mat-menu-item 
+                    *ngFor="let opcion of vinculaciones; trackBy: trackByAccion" 
+                    (click)="ejecutarAccion(opcion)">
+                     <span>{{ opcion.TipoVinculacion?.Nombre || '' }}</span>
+                  </button>
+                  </mat-menu>
+                  
+              </div>
+            </div>
+            
+            <img src="assets/icons/Logo_Escudo_invertido.svg" alt="Escudo" class="university-logo">
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <button mat-raised-button color="primary" style="display: block; margin: 0 auto;" (click)="onUpload()" [disabled]="!selectedFile">Guardar</button>
+    <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+    
+  </main>
+
+  <!-- Barra de Navegación Inferior -->
+  <nav class="bottom-nav">
+    <a class="nav-item" 
+       routerLink="/pages/dashboard" 
+       routerLinkActive="active"
+       matTooltip="Carnet" 
+       matTooltipPosition="above">
+        <mat-icon>assignment</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/qrcode" 
+       routerLinkActive="active" matTooltip="Mi QR" matTooltipPosition="above">
+        <mat-icon>qr_code_2</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/ingreso" 
+       routerLinkActive="active" matTooltip="Leer QR" matTooltipPosition="above">
+        <mat-icon>qr_code_1</mat-icon>
+        
+       </a>
+      
+      <a class="nav-item" 
+       routerLink="/pages/informacion_basica" 
+       routerLinkActive="active" matTooltip="Perfil" matTooltipPosition="above">
+        <mat-icon>person_outline</mat-icon>
+        
+       </a>
+  </nav>
+</div>
+
+
+
+
+

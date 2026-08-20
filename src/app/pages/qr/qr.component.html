@@ -1,9 +1,21 @@
+ <div class="mobile-container" *ngIf="tercero && datosIdentificacion">
+  <!-- Encabezado Superior -->
+  <header class="app-header">
+    
+    <div class="header-title">
+      <span class="university-text">UNIVERSIDAD DISTRITAL</span>
+      <span class="sub-text">FRANCISCO JOSÉ DE CALDAS</span>
+    </div>
+    
+  </header>
+<main class="main-content">
 <mat-card class="card-oas">
     <mat-card-header>
-        <mat-card-title>Mi código QR</mat-card-title>
+        <mat-card-title>Mi QR</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <div class="qr-content">
+          
             <div class="qr-code">
                 <qr-code [value]="qrValue" size="300" errorCorrectionLevel="M"></qr-code>
             </div>
@@ -11,3 +23,34 @@
         <button mat-raised-button color="primary" style="display: block; margin: 0 auto;" (click)='imprimirPdf()'>Imprimir</button>
     </mat-card-content>
 </mat-card>
+</main>
+<nav class="bottom-nav">
+    <a class="nav-item" 
+       routerLink="/inicio" 
+       routerLinkActive="active"
+       matTooltip="Carnet" 
+       matTooltipPosition="above">
+        <mat-icon>assignment</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/qrcode" 
+       routerLinkActive="active" matTooltip="Mi QR" matTooltipPosition="above">
+        <mat-icon>qr_code_2</mat-icon>
+        
+       </a>
+      <a class="nav-item" 
+       routerLink="/pages/ingreso" 
+       routerLinkActive="active" matTooltip="Leer QR" matTooltipPosition="above">
+        <mat-icon>qr_code_1</mat-icon>
+        
+       </a>
+      
+     
+      <a class="nav-item" 
+       routerLink="/pages/informacion_basica" 
+       routerLinkActive="active" matTooltip="Perfil" matTooltipPosition="above">
+        <mat-icon>person_outline</mat-icon>
+        
+       </a>
+  </nav>
