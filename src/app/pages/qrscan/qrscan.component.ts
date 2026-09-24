@@ -40,6 +40,7 @@ export class QrscanComponent implements AfterViewInit {
           .subscribe((datosInfoVinculaciones: any) => {
             if (datosInfoVinculaciones.length>0){
               this.idRol=datosInfoVinculaciones[0].TipoVinculacionId
+              /* roles=CONTRATISTA EXTERNO,DOCENTE DE CARRERA TIEMPO COMPLETO,DOCENTE DE CARRERA MEDIO TIEMPO,TIEMPO COMPLETO OCASIONAL,HORA CÁTEDRA PRESTACIONES,MEDIO TIEMPO OCASIONAL,HORA CÁTEDRA POR HONORARIOS)*/
               this.permisos = (this.idRol == 377 || this.idRol == 293 || this.idRol == 294 || (this.idRol >= 296 && this.idRol <= 299))
               if(this.permisos)
               this.cargarSedes();
@@ -116,9 +117,11 @@ export class QrscanComponent implements AfterViewInit {
         const { value: accept } = await Swal.fire({
           title:'Control de aforo',
           icon: 'error',
-          html:`<p class="text-term-condional">
+          html:`
+          <h3 class="title-term-conditional">${this.persona.Fecha}</h3>
+          <p class="text-term-condional">
             <b>Usuario:</b> ${this.persona.Nombre}<br>
-            <b>Fecha:</b> ${this.persona.Fecha}<br>
+            
             <b>Acceso:</b> ${this.persona.Acceso}<br>
             <b>Causa:</b> ${this.persona.Causa}<br>
             <b>Cupo restante:</b> ${this.persona.Cupo}<br></p>`,
@@ -129,9 +132,10 @@ export class QrscanComponent implements AfterViewInit {
         const { value: accept } = await Swal.fire({
           title:'Control de aforo',
           icon: 'success',
-          html:`<p class="text-term-condional">
+          html:`
+            <h3 class="title-term-conditional">${this.persona.Fecha}</h3>
+            <p class="text-term-condional">
             <b>Usuario:</b> ${this.persona.Nombre}<br>
-            <b>Fecha:</b> ${this.persona.Fecha}<br>
             <b>Acceso:</b> ${this.persona.Acceso}<br>
             <b>Cupo restante:</b> ${this.persona.Cupo}<br><br>
             <center>Puede continuar</center></p>`,
@@ -159,10 +163,12 @@ export class QrscanComponent implements AfterViewInit {
           this.persona =await respuesta["Data"];
           let codeHtml=`
               <h3 class="title-term-conditional">Control de aforo</h3>
+              <h3 class="title-term-conditional">${this.persona.Fecha}</h3>
               <p class="text-term-condional">
               <b>Usuario:</b> ${this.persona.Nombre}<br>
               <b>Identificación:</b> ${this.lectura.cc}<br>
               <b>Ingreso:</b> ${this.persona.Acceso}<br>`
+
           if(this.persona.Causa!=""){
             codeHtml=codeHtml+`<b>Causa:</b> ${this.persona.Causa}<br>`
           }
@@ -192,7 +198,7 @@ export class QrscanComponent implements AfterViewInit {
     this.sedeCambiada=true
     this.edificioSeleccionado=""
     this.salon=""
-    if(this.edificiosSeleccion[idSede].length>0){
+/*    if(this.edificiosSeleccion[idSede].length>0){
       this.edificioActivado=true
       this.edificios=this.edificiosSeleccion[idSede]
       this.edificioCambiado=false
@@ -200,7 +206,7 @@ export class QrscanComponent implements AfterViewInit {
     else{
       this.edificioActivado=false
       this.edificioCambiado=true
-    }
+    }*/
   }
 
   cambioEdificio(){
@@ -209,11 +215,12 @@ export class QrscanComponent implements AfterViewInit {
   }
 
   cargarSedes(){
-    this.request.get(environment.OIKOS_SERVICE,"espacio_fisico/?limit=-1&query=TipoEspacio.Id:38,Activo:true")
+    this.request.get(environment.OIKOS_SERVICE,"espacio_fisico/?limit=-1&query=TipoEspacio.Id:38,Activo:true&sortby=Nombre&order=asc")
     .subscribe((res :any) =>{
       if (res != [] && res!=null){
         this.sedes=res
-        this.cargarEdificios()
+        /* por el momento no se cargan los edificios, se cargan cuando se selecciona la sede */
+       // this.cargarEdificios()
       }
     }, (error) => {
       console.log(error);
