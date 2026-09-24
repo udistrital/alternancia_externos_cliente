@@ -26,7 +26,7 @@
           </mat-select>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" *ngIf="edificioActivado">
+        <!--mat-form-field appearance="fill" *ngIf="edificioActivado">
           <mat-label>Edificio</mat-label>
           <mat-select (selectionChange)="cambioEdificio()" [(value)]=edificioSeleccionado>
             <mat-option disabled selected> Selecciona una opcion</mat-option>
@@ -38,8 +38,8 @@
             <mat-label>Salon</mat-label>
             <input matInput [(ngModel)]="salon">
         </mat-form-field>
-        <br  *ngIf="edificioCambiado">
-        <mat-radio-group aria-label="Seleccione el tipo de escaneo" *ngIf="edificioActivado"  [(ngModel)]="tipo">
+        <br  *ngIf="edificioCambiado"-->
+        <mat-radio-group aria-label="Seleccione el tipo de escaneo" *ngIf="sedeSeleccionada"  [(ngModel)]="tipo">
             <mat-radio-button value="in" selected>Entrada</mat-radio-button>&nbsp;
             <mat-radio-button value="out">Salida</mat-radio-button>
         </mat-radio-group>
@@ -103,7 +103,12 @@
         <mat-icon>qr_code_1</mat-icon>
         
        </a>
-     
+      <a class="nav-item" 
+       routerLink="/pages/vehiculo"  
+       routerLinkActive="active" matTooltip="Vehiculo" matTooltipPosition="above">
+        <mat-icon>directions_car</mat-icon>
+        
+       </a>
      
       <a class="nav-item" 
        routerLink="/pages/informacion_basica" 
