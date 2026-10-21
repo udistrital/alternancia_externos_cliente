@@ -13,6 +13,7 @@ import { Vinculacion } from '../../@core/models/vinculacion';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { StorageService } from '../services/storageService';
 @Component({
   selector: 'app-carnet',
   templateUrl: './carnet.component.html',
@@ -29,51 +30,54 @@ export class CarnetComponent implements OnInit {
   infoVacunacion: any[] = [{ dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }, { dato: '' }];
   maxDate: Date = new Date();
   minDate: Date = new Date(2021, 0, 1);
-  tercero: Tercero | undefined ;
-  datosIdentificacion: DatosIdentificacion | undefined ;
-  datosGenero: InfoComplementariaTercero | undefined ;
-  datosLocalidad: InfoComplementariaTercero | undefined ;
-  datosEstadoCivil: InfoComplementariaTercero | undefined ;
-  vinculaciones: Vinculacion[]= [];
-  vinculacion:Vinculacion | undefined ;
-  infoComplementariaId: number | undefined ;
-  infoComplementariaTerceroId: number | undefined ;
-  edad: number | undefined ;
+  tercero: Tercero | undefined;
+  datosIdentificacion: DatosIdentificacion | undefined;
+  datosGenero: InfoComplementariaTercero | undefined;
+  datosLocalidad: InfoComplementariaTercero | undefined;
+  datosEstadoCivil: InfoComplementariaTercero | undefined;
+  vinculaciones: Vinculacion[] = [];
+  vinculacion: Vinculacion | undefined;
+  infoComplementariaId: number | undefined;
+  infoComplementariaTerceroId: number | undefined;
+  edad: number | undefined;
   source: LocalDataSource = new LocalDataSource();
   settings: any;
   epsLista: string[] = [];
-  base64:any = null;
-  enlace : string;
+  base64: any = null;
+  enlace: string;
   extension: string;
   ifImagen: boolean;
+  imagenLocal: any;
   RH: string;
   nombreArchivo: string;
   imageSrc: any;
   base64String: any;
   fotoCarnet: string;
-  data:any;
-  isClickEnabled: boolean = false; 
+  data: any;
+  isClickEnabled: boolean = false;
   opcionSeleccionada: any = null;
+
 
   constructor(
     private request: RequestManager,
     private userService: UserService,
-    private sanitizer:DomSanitizer,
+    private sanitizer: DomSanitizer,
     private utilService: UtilService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private storageService: StorageService
   ) {
-    this.ifImagen=false;
-    this.enlace="";
-    this.extension="";
-    this.nombreArchivo="";
-    this.fotoCarnet="";
-    this.RH="";
- 
-    }
+    this.ifImagen = false;
+    this.enlace = "";
+    this.extension = "";
+    this.nombreArchivo = "";
+    this.fotoCarnet = "";
+    this.RH = "";
+    this.imagenLocal = null;
+  }
 
- 
- public corregirFecha(fecha: string): Date {
+
+  public corregirFecha(fecha: string): Date {
     let fechaHora = new Date(fecha);
     fechaHora.setHours(fechaHora.getHours() + 5);
     return fechaHora;
@@ -84,23 +88,23 @@ export class CarnetComponent implements OnInit {
     let idRol: number = vinculacion.TipoVinculacion.Id;
 
 
-    if (idRol == 290 || idRol == 291 ) {
-        vinculacion.TipoVinculacion.Nombre = 'CONTRATISTA';
-      }
-      if (idRol == 346 ) {
-        vinculacion.TipoVinculacion.Nombre = 'ESTUDIANTE';
-      }
-      if (idRol == 300 || idRol == 301 || idRol == 302 || idRol == 303 || idRol == 304 || idRol == 305 || idRol == 306 || idRol == 307 || idRol == 311 || idRol == 347 ) {
-        vinculacion.TipoVinculacion.Nombre = 'FUNCIONARIO';
-      }
-      if (idRol == 292 || idRol == 293 || idRol == 294 || idRol == 295 || idRol == 296 || idRol == 297 || idRol == 298 || idRol == 299 ) {
-        vinculacion.TipoVinculacion.Nombre = 'DOCENTE';
-      }
+    if (idRol == 290 || idRol == 291) {
+      vinculacion.TipoVinculacion.Nombre = 'CONTRATISTA';
+    }
+    if (idRol == 346) {
+      vinculacion.TipoVinculacion.Nombre = 'ESTUDIANTE';
+    }
+    if (idRol == 300 || idRol == 301 || idRol == 302 || idRol == 303 || idRol == 304 || idRol == 305 || idRol == 306 || idRol == 307 || idRol == 311 || idRol == 347) {
+      vinculacion.TipoVinculacion.Nombre = 'FUNCIONARIO';
+    }
+    if (idRol == 292 || idRol == 293 || idRol == 294 || idRol == 295 || idRol == 296 || idRol == 297 || idRol == 298 || idRol == 299) {
+      vinculacion.TipoVinculacion.Nombre = 'DOCENTE';
+    }
 
   }
 
   ngOnInit(): void {
-     Swal.fire({
+    Swal.fire({
       title: 'Cargando datos...',
       text: 'Por favor, espere un momento.',
       allowOutsideClick: false,
@@ -109,11 +113,25 @@ export class CarnetComponent implements OnInit {
         Swal.showLoading(); // Muestra el spinner de carga clásico
       }
     });
-    this.request.get(environment.TERCEROS_SERVICE, `info_complementaria?query=CodigoAbreviacion:FOTOCARNET`)
-    .subscribe((datosInfoComplementaria: any) => {
-          this.infoComplementariaId = datosInfoComplementaria[0].Id;
-          
+
+
+    this.storageService.obtenerImagen(btoa("tercero_id")).then((terceroLocal) => {
+      if (terceroLocal) {
+        this.storageService.obtenerImagen(terceroLocal).then((imagen) => {
+          if (imagen) {
+            this.imagenLocal = imagen;
+          }
+        });
+      }
+
     });
+
+
+    this.request.get(environment.TERCEROS_SERVICE, `info_complementaria?query=CodigoAbreviacion:FOTOCARNET`)
+      .subscribe((datosInfoComplementaria: any) => {
+        this.infoComplementariaId = datosInfoComplementaria[0].Id;
+
+      });
     this.userService.user$.subscribe((data) => {
       this.request.get(environment.TERCEROS_SERVICE, `datos_identificacion/?query=Numero:` + data['userService']['documento'])
         .subscribe((datosInfoTercero: any) => {
@@ -122,67 +140,66 @@ export class CarnetComponent implements OnInit {
             ...{ FechaExpedicion: datosInfoTercero[0].FechaExpedicion ? this.corregirFecha(datosInfoTercero[0].FechaExpedicion) : '' }
           }
           this.tercero = this.datosIdentificacion.TerceroId;
+          this.storageService.guardarImagen(btoa("tercero_id"), btoa(this.tercero.Id.toString()));
 
           if (this.tercero) {
-          
-             this.request.get(environment.TERCEROS_SERVICE, `info_complementaria_tercero?query=TerceroId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`
+
+            this.request.get(environment.TERCEROS_SERVICE, `info_complementaria_tercero?query=TerceroId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`
               + `,InfoComplementariaId.GrupoInfoComplementariaId.Id:7,Activo:true`)
-             .subscribe((grupoSanguineo: any) => {
-               
-                
-                 this.request.get(environment.TERCEROS_SERVICE, `info_complementaria_tercero?query=TerceroId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`
-              + `,InfoComplementariaId.GrupoInfoComplementariaId.Id:8,Activo:true`)
-             .subscribe((factor: any) => {
-                 this.RH=grupoSanguineo[0].InfoComplementariaId.Nombre+factor[0].InfoComplementariaId.Nombre;
-               
-              }, (error) => {
-                console.log(error);
-              });   
+              .subscribe((grupoSanguineo: any) => {
+
+
+                this.request.get(environment.TERCEROS_SERVICE, `info_complementaria_tercero?query=TerceroId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`
+                  + `,InfoComplementariaId.GrupoInfoComplementariaId.Id:8,Activo:true`)
+                  .subscribe((factor: any) => {
+                    this.RH = grupoSanguineo[0].InfoComplementariaId.Nombre + factor[0].InfoComplementariaId.Nombre;
+
+                  }, (error) => {
+                    console.log(error);
+                  });
               }, (error) => {
                 console.log(error);
               });
             this.request.get(environment.TERCEROS_SERVICE, `info_complementaria_tercero/?query=TerceroId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}`
               + `,InfoComplementariaId.CodigoAbreviacion:FOTOCARNET,Activo:true`)
               .subscribe((fotoCarnet: any) => {
-                    if(JSON.stringify(fotoCarnet[0]) !== '{}')
-                    {
-                    this.fotoCarnet = (JSON.parse(fotoCarnet[0].Dato)).dato;
-                    this.infoComplementariaTerceroId = fotoCarnet[0].Id;
-                    this.request.get(environment.GESTOR_DOCUMENTAL, 'document/'+ this.fotoCarnet).subscribe((imagen_base64: any) => {
+                if (JSON.stringify(fotoCarnet[0]) !== '{}') {
+                  this.fotoCarnet = (JSON.parse(fotoCarnet[0].Dato)).dato;
+                  this.infoComplementariaTerceroId = fotoCarnet[0].Id;
+                  this.request.get(environment.GESTOR_DOCUMENTAL, 'document/' + this.fotoCarnet).subscribe((imagen_base64: any) => {
 
-                        const reader = new FileReader();
-                      reader.onload = () => {
-                        this.imagePreview = reader.result;
-                        }
-                        
-                        const imageBlob = this.base64ToBlob(imagen_base64.file, 'image/png');
-                        reader.readAsDataURL(imageBlob);
-                        this.enableClick();  
-                         Swal.close();
-                      },
-                      error => {
-                        Swal.fire({
-                          title: 'error',
-                          text: `${JSON.stringify(error)}`,
-                          icon: 'error',
-                          showCancelButton: true,
-                          cancelButtonText: 'Cancelar',
-                          confirmButtonText: `Aceptar`,
-                        });
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      this.imagePreview = reader.result;
+                    }
+
+                    const imageBlob = this.base64ToBlob(imagen_base64.file, 'image/png');
+                    reader.readAsDataURL(imageBlob);
+                    this.enableClick();
+                    Swal.close();
+                  },
+                    error => {
+                      Swal.fire({
+                        title: 'error',
+                        text: `${JSON.stringify(error)}`,
+                        icon: 'error',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: `Aceptar`,
                       });
-                     } else
-                      {
-                        Swal.close();
-                        this.enableClick();  
-                      }  
-               
-                     
+                    });
+                } else {
+                  Swal.close();
+                  this.enableClick();
+                }
+
+
 
               }, (error) => {
                 console.log(error);
               })
 
-         
+
 
             this.request.get(environment.TERCEROS_SERVICE, `vinculacion/?query=Activo:true,TerceroPrincipalId.Id:${!!this.tercero ? this.tercero.Id ? this.tercero.Id : '' : ''}&sortby=FechaFinVinculacion&order=desc`)
               .subscribe((datosInfoVinculaciones: any) => {
@@ -197,23 +214,28 @@ export class CarnetComponent implements OnInit {
                     this.request.get(environment.PARAMETROS_SERVICE, `parametro/?query=Id:` + this.vinculaciones[i].TipoVinculacionId)
                       .subscribe((vinculacion: any) => {
                         this.vinculaciones[i].TipoVinculacion = vinculacion['Data'][0];
-                        this.vinculacion=vinculacion['Data'][0];
+                        this.vinculacion = vinculacion['Data'][0];
                         if (this.vinculaciones[i].DependenciaId) {
                           this.request.get(environment.OIKOS_SERVICE, `dependencia/` + this.vinculaciones[i].DependenciaId)
                             .subscribe((dependencia: any) => {
                               this.vinculaciones[i].Dependencia = dependencia;
+                              let id = btoa("vinculaciones");
+                              let datos = JSON.stringify(this.vinculaciones);
+                              this.storageService.guardarImagen(id, btoa(datos));
                             }, (error) => {
                               console.log(error);
                             })
                         }
                         this.asignarVinculacion(this.vinculaciones[i]);
-                        
+
                       })
                   }
                 }
                 if (this.vinculaciones && this.vinculaciones.length > 0) {
-                         this.opcionSeleccionada = this.vinculaciones[0];
-                  }
+
+
+                  this.opcionSeleccionada = this.vinculaciones[0];
+                }
               })
           }
         }, (error) => {
@@ -223,15 +245,15 @@ export class CarnetComponent implements OnInit {
     })
 
 
-    
-  
+
+
   }
-  obtenerImagen(enlace: string){
-   this.request.get(environment.GESTOR_DOCUMENTAL,'document/' + enlace).
-    subscribe((documento)=>{
-      this.base64String = documento['file'];
-      this.imageSrc = this.convertBase64ToImageSrc(this.base64String);
-    })
+  obtenerImagen(enlace: string) {
+    this.request.get(environment.GESTOR_DOCUMENTAL, 'document/' + enlace).
+      subscribe((documento) => {
+        this.base64String = documento['file'];
+        this.imageSrc = this.convertBase64ToImageSrc(this.base64String);
+      })
   }
   convertBase64ToImageSrc(base64String: string): any {
     // Convertir la cadena base64 a una URL de objeto
@@ -240,7 +262,7 @@ export class CarnetComponent implements OnInit {
     // Sanitizar la URL para prevenir problemas de seguridad
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
   }
- 
+
   base64ToBlob(base64String: string, type: string): Blob {
     // Obtener el contenido binario de la cadena base64
     const byteCharacters = atob(base64String);
@@ -257,8 +279,8 @@ export class CarnetComponent implements OnInit {
     // Crear un objeto Blob a partir de los byteArrays
     return new Blob(byteArrays, { type: type });
   }
-  
- onFileSelected(event: any): void {
+
+  onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     this.resetForm();
 
@@ -266,16 +288,16 @@ export class CarnetComponent implements OnInit {
 
     if (!this.allowedTypes.includes(file.type)) {
       this.errorMessage = 'Formato inválido. Usa .jpg, .jpeg o .png';
-      event.target.value = ''; 
+      event.target.value = '';
       return;
     }
 
     if (file.size > this.maxFileSize) {
       this.errorMessage = 'La imagen excede el límite máximo de 5 MB';
-      event.target.value = ''; 
+      event.target.value = '';
       return;
     }
-    
+
 
 
 
@@ -283,139 +305,147 @@ export class CarnetComponent implements OnInit {
     reader.onload = () => {
       this.imagePreview = reader.result;
       const base64String = (reader.result as string).split(',')[1];
-        this.base64 = base64String; 
-        let validarImagen = {imagen_base64: this.base64};
-                 
-                  this.request.post(environment.VALIDAR_IMAGEN, '/rostro/validar', JSON.stringify(validarImagen))
-                  .subscribe((data: any) => {
-                    
-                    if(data.Data.valida&&data.Data.tiene_rostro&&data.Data.es_rostro_humano)
-                    {
-                      this.selectedFile = file;
-                    }
-                    else
-                    {
-                         this.errorMessage = 'No se detecta un rostro humano en la imagen';
+      this.base64 = base64String;
+      let validarImagen = { imagen_base64: this.base64 };
 
-                    }
+      this.request.post(environment.VALIDAR_IMAGEN, '/rostro/validar', JSON.stringify(validarImagen))
+        .subscribe((data: any) => {
 
-                  },
-                  error => {
-                    Swal.fire({
-                      title: 'error',
-                      text: `${JSON.stringify(error)}`,
-                      icon: 'error',
-                      showCancelButton: true,
-                      cancelButtonText: 'Cancelar',
-                      confirmButtonText: `Aceptar`,
-                    });
-                  });
+          if (data.Data.valida && data.Data.tiene_rostro && data.Data.es_rostro_humano) {
+            this.selectedFile = file;
+
+          }
+          else {
+            this.errorMessage = 'No se detecta un rostro humano en la imagen';
+
+          }
+
+        },
+          error => {
+            Swal.fire({
+              title: 'error',
+              text: `${JSON.stringify(error)}`,
+              icon: 'error',
+              showCancelButton: true,
+              cancelButtonText: 'Cancelar',
+              confirmButtonText: `Aceptar`,
+            });
+          });
     };
-    
-    
+
+
     reader.readAsDataURL(file);
   }
   onUpload(): void {
     if (!this.selectedFile) return;
+    Swal.fire({
+      title: 'Guardando imagen...',
+      text: 'Por favor, espere un momento.',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading(); // Muestra el spinner de carga clásico
+      }
+    });
+    const documento: Documento = {
+      IdTipoDocumento: 202,
+      nombre: 'carnet_' + this.tercero.Id + '.' + this.selectedFile.type.split("/")[1],
+      metadatos: {},
+      descripcion: "Imagen de carnet",
+      file: this.base64
+    }
+    let array = [documento];
+    this.request.post(environment.GESTOR_DOCUMENTAL, 'document/upload', array)
+      .subscribe((data: any) => {
 
-      const documento :Documento ={
-              IdTipoDocumento : 202,
-              nombre : 'carnet_' +this.tercero.Id+'.'+ this.selectedFile.type.split("/")[1],
-              metadatos :{},
-              descripcion:"Imagen de carnet",
-              file : this.base64      
-            }
-             let array = [documento];
-             this.request.post(environment.GESTOR_DOCUMENTAL, 'document/upload', array)
-             .subscribe((data: any) => {
-                    
-                    this.enlace = data['res'].Enlace;
-                    
+        this.enlace = data['res'].Enlace;
 
-              if (this.enlace) {
-               
 
-                let itemInfoComplementariaTercero = 
-                {
-                  TerceroId: { Id: this.tercero.Id },
-                  InfoComplementariaId: {
-                    Id: this.infoComplementariaId,
-                  },
-                  Dato: JSON.stringify({ dato: this.enlace }),
-                  Activo: true
-                  };
-                  if(this.fotoCarnet)
-                  {
-                     
+        if (this.enlace) {
 
-                       this.request
-                    .put(environment.TERCEROS_SERVICE, '/info_complementaria_tercero', itemInfoComplementariaTercero, this.infoComplementariaTerceroId)
-                    .subscribe((data: any) => {
-                      Swal.fire({
-                        title: 'informacion',
-                        text: `imagen guardada correctamente`,
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonText: `Aceptar`,
-                      });
-                    
 
-                    },
-                    error => {
-                      Swal.fire({
-                        title: 'error',
-                        text: `${JSON.stringify(error)}`,
-                        icon: 'error',
-                        showCancelButton: true,
-                        cancelButtonText: 'Cancelar',
-                        confirmButtonText: `Aceptar`,
-                      });
-                    });
-                 
+          let itemInfoComplementariaTercero =
+          {
+            TerceroId: { Id: this.tercero?.Id },
+            InfoComplementariaId: {
+              Id: this.infoComplementariaId,
+            },
+            Dato: JSON.stringify({ dato: this.enlace }),
+            Activo: true
+          };
+          if (this.fotoCarnet) {
 
-                  }
-                  else
-                  {
-                    this.request
-                    .post(environment.TERCEROS_SERVICE, 'info_complementaria_tercero/', itemInfoComplementariaTercero)
-                    .subscribe((data: any) => {
-                      Swal.fire({
-                        title: 'informacion',
-                        text: `imagen guardada correctamente`,
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonText: `Aceptar`,
-                      });
-                    
 
-                    },
-                    error => {
-                      Swal.fire({
-                        title: 'error',
-                        text: `${JSON.stringify(error)}`,
-                        icon: 'error',
-                        showCancelButton: true,
-                        cancelButtonText: 'Cancelar',
-                        confirmButtonText: `Aceptar`,
-                      });
-                    });
-                  }
-                }
+            this.request
+              .put(environment.TERCEROS_SERVICE, '/info_complementaria_tercero', itemInfoComplementariaTercero, this.infoComplementariaTerceroId)
+              .subscribe((data: any) => {
+                this.storageService.guardarImagen(btoa(this.tercero.Id.toString()), this.base64);
+                this.selectedFile = null;
+                Swal.fire({
+                  title: 'informacion',
+                  text: `imagen guardada correctamente`,
+                  icon: 'success',
+                  showCancelButton: false,
+                  confirmButtonText: `Aceptar`,
+                });
+
+
               },
-              error => {
-              Swal.fire({
-                      title: 'error',
-                      text: `${JSON.stringify(error)}`,
-                      icon: 'error',
-                      showCancelButton: true,
-                      cancelButtonText: 'Cancelar',
-                      confirmButtonText: `Aceptar`,
-                    });
+                error => {
+                  Swal.fire({
+                    title: 'error',
+                    text: `${JSON.stringify(error)}`,
+                    icon: 'error',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: `Aceptar`,
                   });
+                });
 
-   
+
+          }
+          else {
+            this.request
+              .post(environment.TERCEROS_SERVICE, 'info_complementaria_tercero/', itemInfoComplementariaTercero)
+              .subscribe((data: any) => {
+                this.selectedFile = null;
+                Swal.fire({
+                  title: 'informacion',
+                  text: `imagen guardada correctamente`,
+                  icon: 'success',
+                  showCancelButton: false,
+                  confirmButtonText: `Aceptar`,
+                });
+
+
+              },
+                error => {
+                  Swal.fire({
+                    title: 'error',
+                    text: `${JSON.stringify(error)}`,
+                    icon: 'error',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: `Aceptar`,
+                  });
+                });
+          }
+        }
+      },
+        error => {
+          Swal.fire({
+            title: 'error',
+            text: `${JSON.stringify(error)}`,
+            icon: 'error',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: `Aceptar`,
+          });
+        });
+
+
   }
-   private resetForm(): void {
+  private resetForm(): void {
     this.errorMessage = null;
     this.imagePreview = null;
     this.selectedFile = null;
@@ -428,7 +458,7 @@ export class CarnetComponent implements OnInit {
     // 2. Aquí ejecutas la lógica que ya tenías para la acción
     const accion = opcion.accion;
     console.log('Ejecutando acción:', accion);
-    
+
     // Tu lógica de negocio aquí...
   }
 
@@ -445,5 +475,5 @@ export class CarnetComponent implements OnInit {
   disableClick(): void {
     this.isClickEnabled = false;
   }
- 
+
 }

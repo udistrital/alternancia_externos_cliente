@@ -20,6 +20,7 @@ export const environment = {
     NOTIFICACION_SERVICE: 'wss://pruebasapi.portaloas.udistrital.edu.co:8116/ws',
     GESTOR_DOCUMENTAL: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/gestor_documental_mid/v1/',
     VALIDAR_IMAGEN: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/imagenes/v1',
+    SEGUIMIENTO_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/seguimiento_crud/v1',
     TOKEN: {
       AUTORIZATION_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize',
       CLIENTE_ID: 'Wr8pla31bD51cT_IPEis1e_Opt4a',
