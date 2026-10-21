@@ -1,8 +1,8 @@
 import { Parametro } from './parametro';
 import { Dependencia } from './dependencia';
 import { Tercero } from './tercero';
-export class Vinculacion  {
-  Id: number;
+export class Vinculacion {
+	Id: number;
 	TerceroPrincipalId: Tercero;
 	//TerceroRelacionadoId: Tercero;
 	TipoVinculacionId: number;
@@ -11,7 +11,8 @@ export class Vinculacion  {
 	DependenciaId: number;
 	Dependencia: Dependencia;
 	//PeriodoId: number;
-  FechaInicioVinculacion: string;
-  FechaFinVinculacion: string;
+	FechaInicioVinculacion: string;
+	FechaFinVinculacion: string;
+	Activo: boolean;
 
 }
