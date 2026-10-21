@@ -27,6 +27,7 @@
     "@angular/router": "~11.2.1",
     "@angular/service-worker": "~11.2.1",
     "angular2-qrscanner": "^1.0.7",
+    "localforage": "^1.10.0",
     "moment": "^2.29.1",
     "ng-qrcode": "^4.1.0",
     "ng2-completer": "^9.0.1",
