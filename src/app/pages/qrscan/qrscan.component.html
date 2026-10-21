@@ -1,19 +1,19 @@
-<div class="mobile-container" >
-  <!-- Encabezado Superior -->
-  <header class="app-header">
-    
-    <div class="header-title">
-      <span class="university-text">UNIVERSIDAD DISTRITAL</span>
-      <span class="sub-text">FRANCISCO JOSÉ DE CALDAS</span>
-    </div>
-    
-  </header>
-<main class="main-content">
-<div *ngIf="loaderService.isLoading | async" class="loader-container">
-    <mat-spinner style="top: 50%;left: 50%;"></mat-spinner>
-</div>
-<br>
-<mat-card class="{{permisos?'card-oas':'card-oas hidden'}}">
+<div class="mobile-container">
+    <!-- Encabezado Superior -->
+    <header class="app-header">
+
+        <div class="header-title">
+            <span class="university-text">UNIVERSIDAD DISTRITAL</span>
+            <span class="sub-text">FRANCISCO JOSÉ DE CALDAS</span>
+        </div>
+
+    </header>
+    <main class="main-content">
+        <div *ngIf="loaderService.isLoading | async" class="loader-container">
+            <mat-spinner style="top: 50%;left: 50%;"></mat-spinner>
+        </div>
+        <br>
+        <!--mat-card class="{{permisos?'card-oas':'card-oas hidden'}}">
     <mat-card-header>
         <mat-card-title>Seleccione el espacio</mat-card-title>
     </mat-card-header>
@@ -38,82 +38,71 @@
             <mat-label>Salon</mat-label>
             <input matInput [(ngModel)]="salon">
         </mat-form-field>
-        <br  *ngIf="edificioCambiado"-->
+        <br  *ngIf="edificioCambiado">
         <mat-radio-group aria-label="Seleccione el tipo de escaneo" *ngIf="sedeSeleccionada"  [(ngModel)]="tipo">
             <mat-radio-button value="in" selected>Entrada</mat-radio-button>&nbsp;
             <mat-radio-button value="out">Salida</mat-radio-button>
         </mat-radio-group>
     </mat-card-content>
-</mat-card>
-<br>
-<mat-card class='card-oas'>
-    <mat-card-header>
-        <mat-card-title>Seleccione dispositivo</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <div *ngFor="let device of videoDevices">
-            <button mat-button color="primary" 
-            (click)="selectDevice(device)">{{device.kind}} {{device.label?device.label:''}}</button>
-        </div>
-        <div *ngIf="videoDevices?videoDevices.length === 0:0">
-            <p>No se encontraron dispositivos de lectura</p>
-        </div>
-    </mat-card-content>
-</mat-card>
-<br>
-<mat-card  class="{{dispositivoActual?'card-oas':'card-oas hidden'}}">
-    <mat-card-header>
-        <mat-card-title>Lector QR </mat-card-title>
-        <!-- <div *ngIf="dispositivoActual"> -->
-        <div class="qr-animation" *ngIf="dispositivoActual">            
-            <span class="material-icons md-30">qr_code_scanner</span>
-        </div>
-    </mat-card-header>
-    <mat-card-content>
-        <qr-scanner
-        [debug]="false"
-        [canvasWidth]="400"
-        [canvasHeight]="400"
-        [stopAfterScan]="true"
-        [updateTime]="500">
-    </qr-scanner>
-    </mat-card-content>
-</mat-card>
+</mat-card-->
+        <br>
+        <mat-card class='card-oas'>
+            <mat-card-header>
+                <mat-card-title>Seleccione dispositivo</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngFor="let device of videoDevices">
+                    <button mat-button color="primary" (click)="selectDevice(device)">{{device.kind}}
+                        {{device.label?device.label:''}}</button>
+                </div>
+                <div *ngIf="videoDevices?videoDevices.length === 0:0">
+                    <p>No se encontraron dispositivos de lectura</p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <br>
+        <mat-card class="{{dispositivoActual?'card-oas':'card-oas hidden'}}">
+            <mat-card-header>
+                <mat-card-title>Lector QR </mat-card-title>
+                <!-- <div *ngIf="dispositivoActual"> -->
+                <div class="qr-animation" *ngIf="dispositivoActual">
+                    <span class="material-icons md-30">qr_code_scanner</span>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <qr-scanner [debug]="false" [canvasWidth]="400" [canvasHeight]="400" [stopAfterScan]="true"
+                    [updateTime]="500">
+                </qr-scanner>
+            </mat-card-content>
+        </mat-card>
 
-</main>
+    </main>
 
-<nav class="bottom-nav">
-    <a class="nav-item" 
-       routerLink="/pages/dashboard" 
-       routerLinkActive="active"
-       matTooltip="Carnet" 
-       matTooltipPosition="above">
-        <mat-icon>assignment</mat-icon>
-        
-       </a>
-      <a class="nav-item" 
-       routerLink="/pages/qrcode"
-       routerLinkActive="active" matTooltip="Mi QR" matTooltipPosition="above">
-        <mat-icon>qr_code_2</mat-icon>
-        
-       </a>
-      <a class="nav-item" 
-       routerLink="/pages/ingreso" 
-       routerLinkActive="active" matTooltip="Leer QR" matTooltipPosition="above">
-        <mat-icon>qr_code_1</mat-icon>
-        
-       </a>
-      <a class="nav-item" 
-       routerLink="/pages/vehiculo"  
-       routerLinkActive="active" matTooltip="Vehiculo" matTooltipPosition="above">
-        <mat-icon>directions_car</mat-icon>
-        
-       </a>
-     
-      <a class="nav-item" 
-       routerLink="/pages/informacion_basica" 
-       routerLinkActive="active" matTooltip="Perfil" matTooltipPosition="above">
-        <mat-icon>person_outline</mat-icon>
-        
-       </a>
-  </nav>
+    <nav class="bottom-nav">
+        <a class="nav-item" routerLink="/pages/dashboard" routerLinkActive="active" matTooltip="Carnet"
+            matTooltipPosition="above">
+            <mat-icon>assignment</mat-icon>
+
+        </a>
+        <a class="nav-item" routerLink="/pages/qrcode" routerLinkActive="active" matTooltip="Mi QR"
+            matTooltipPosition="above">
+            <mat-icon>qr_code_2</mat-icon>
+
+        </a>
+        <a class="nav-item" routerLink="/pages/ingreso" routerLinkActive="active" matTooltip="Leer QR"
+            matTooltipPosition="above">
+            <mat-icon>qr_code_1</mat-icon>
+
+        </a>
+        <a class="nav-item" routerLink="/pages/vehiculo" routerLinkActive="active" matTooltip="Vehiculo"
+            matTooltipPosition="above">
+            <mat-icon>directions_car</mat-icon>
+
+        </a>
+
+        <a class="nav-item" routerLink="/pages/informacion_basica" routerLinkActive="active" matTooltip="Perfil"
+            matTooltipPosition="above">
+            <mat-icon>person_outline</mat-icon>
+
+        </a>
+    </nav>
